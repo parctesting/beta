@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .container {
-    background-color: #FFFFFF;
+    background-color: #F4F6F5;
     width: 90%;
     margin-left: 30px;
     margin-right: 30px;
@@ -9,7 +9,7 @@
     padding-top: 0px;
     padding-right: 0px;
     padding-bottom: 0px;
-    color: #2B2828;
+    color: #B50000;
     font-family: Arial;
     font-size: 20px;
     text-align: left;
@@ -40,7 +40,7 @@
 	width: 25%;
 	float: left;
 	font-family: "Source Sans Pro";
-	color: #A5A5A5;
+	color: #F4F6F5;
 	line-height: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
@@ -58,23 +58,23 @@
 }
 .container .columns h4 {
 	text-align: center;
-	color: #950000;
+	color: #B50000;
 }
 .primary_header {
 	width: 100%;
-	background-color: #950000;
+	background-color: #B50000;
 	padding-top: 10px;
 	clear: left;
-	border-bottom: 0px solid #950000;
+	border-bottom: 0px solid #B50000;
 }
 .secondary_header {
     width: 100%;
     padding-top: 1px;
     padding-bottom: 50px;
-    background-color: #B3B3B3;
+    background-color: #4070CC;
     clear: left;
-    border-color: #474545;
-    border-radius: 0.1px;
+    border-color: #4070CC;
+    border-radius: 0px;
 }
 .container .secondary_header ul {
 	margin-top: 0%;
@@ -94,7 +94,7 @@
 	margin-top: 0px;
 	font-family: "Source Sans Pro";
 	font-weight: normal;
-	color: #FFFFFF;
+	color: #F4F6F5;
 	letter-spacing: 1px;
 	margin-left: auto;
 	text-align: center;
@@ -102,15 +102,15 @@
 	transition: all 0.3s linear;
 }
 .secondary_header ul li:hover {
-	color: #717070;
+	color: #4070CC;
 	cursor: pointer;
 }
 .left_article {
-    background-color: #FFFFFF;
+    background-color: #F4F6F5;
     width: 60%;
     float: left;
     font-family: "Source Sans Pro";
-    color: #343434;
+    color: #4070CC;
     padding-bottom: 15px;
     text-indent: 20px;
 }
@@ -121,7 +121,7 @@
     padding-left: 5%;
     padding-right: 5%;
     margin-top: 5%;
-    color: #000000;
+    color: #030909;
     font-weight: bold;
     text-transform: uppercase;
     font-family: Arial;
@@ -133,14 +133,14 @@
     line-height: 24px;
     margin-top: 30px;
     margin-bottom: 15px;
-    color: #474242;
+    color: #030909;
     font-family: Arial;
     text-indent: 20px;
 }
 .right_article {
 	width: 40%;
 	float: left;
-	background-color: #F6F6F6;
+	background-color: #F4F6F5;
 }
 .container .right_article ul {
 	margin-top: 0px;
@@ -156,7 +156,7 @@
 	font-family: "Source Sans Pro";
 	list-style: none;
 	text-align: center;
-	background-color: #B3B3B3;
+	background-color: #F4F6F5;
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
@@ -164,25 +164,25 @@
 	margin-bottom: 10px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	color: #FFFFFF;
+	color: #F4F6F5;
 	font-weight: bold;
 	border-radius: 0px;
 	transition: all 0.3s linear;
-	border-left: 5px solid #717070;
+	border-left: 5px solid #030909;
 }
 .right_article ul li:hover {
-	background-color: #717070;
+	background-color: #030909;
 	cursor: pointer;
 }
 .footer {
-	background-color: #717070;
+	background-color: #4070CC;
 }
 .title {
 	font-weight: bold;
 	font-style: normal;
 	font-family: "Source Sans Pro";
 	text-align: center;
-	color: #FFFFFF;
+	color: #F4F6F5;
 	letter-spacing: 2px;
 }
 .placeholder {
@@ -198,16 +198,16 @@
 	height: 100%;
 }
 .left_half {
-	background-color: #950000;
+	background-color: #B50000;
 }
 .container .column_half.left_half h2 {
-	color: #FFFFFF;
+	color: #F4F6F5;
 	font-family: "Source Sans Pro";
 	text-align: center;
 }
 .right_half {
-	background-color: #01B2D1;
-	color: #FFFFFF;
+	background-color: #030909;
+	color: #F4F6F5;
 	font-family: "Source Sans Pro";
 	text-align: center;
 	font-weight: bold;
@@ -218,8 +218,8 @@
 }
 .copyright {
 	text-align: center;
-	background-color: #717070;
-	color: #FFFFFF;
+	background-color: #4070CC;
+	color: #F4F6F5;
 	text-transform: uppercase;
 	font-weight: lighter;
 	letter-spacing: 2px;
@@ -231,7 +231,7 @@ body {
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
-    background-color: #950000;
+    background-color: #B50000;
     font-size: 20px;
 }
 
@@ -241,7 +241,7 @@ p {
     margin-bottom: 0px;
     margin-left: 50px;
     text-align: left;
-    color: #000000;
+    color: #030909;
     font-family: Arial;
     text-indent: 20px;
     font-size: large;
@@ -257,7 +257,7 @@ p2 {
 p3 {
 
     text-align: left;
-    color: #000000;
+    color: #030909;
     font-family: Arial;
     text-indent: 20px;
     text-decoration: underline;
@@ -283,7 +283,7 @@ p4 {
     margin-right: 50px;
     margin-bottom: 0px;
     margin-left: 50px;
-    color: #000000;
+    color: #030909;
     font-family: Arial;
     font-size: large;
 }
@@ -293,7 +293,7 @@ p5 {
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
-    color: #d4af37;
+    color: #D30505;
     font-family: Arial;
     font-size: large;
 }
@@ -313,7 +313,7 @@ h6 {
     margin-bottom: 0px;
     margin-left: 50px;
     text-align: left;
-    color: #800080;
+    color: #D30505;
     font-family: Arial;
     font-size: large;
 }
@@ -324,7 +324,7 @@ h5 {
     margin-bottom: 0px;
     margin-left: 50px;
     text-align: left;
-    color: #0600FF;
+    color: #D30505;
     font-family: Arial;
     font-size: large;
 }
@@ -347,7 +347,7 @@ h2 {
     margin-bottom: 0px;
     margin-left: 50px;
     text-align: center;
-    color: #000000;
+    color: #030909;
     font-family: Arial;
     font-weight: bold;
     font-size: xx-large;
@@ -355,7 +355,7 @@ h2 {
 
 h7 {
     text-align: center;
-    color: #000000;
+    color: #030909;
     font-family: Arial;
     font-weight: bold;
     font-size: xx-large;
@@ -367,7 +367,7 @@ h3 {
     margin-bottom: 0px;
     margin-left: 50px;
     text-align: left;
-    color: #000000;
+    color: #030909;
     font-family: Arial;
     text-indent: 0px;
 }
@@ -390,7 +390,7 @@ h8 {
     margin-bottom: 0px;
     margin-left: 0px;
     text-align: left;
-    color: #0600FF;
+    color: #D30505;
     font-family: Arial;
     text-indent: 0px;
 }
@@ -568,7 +568,7 @@ h8 {
 .secondary_header {
     overflow: auto;
     padding-top: 30px;
-    border: 1px  #000000;
+    border: 1px  #030909;
     padding-bottom: 30px;
     border-radius: 1px;
 }
@@ -578,7 +578,7 @@ h8 {
     margin-bottom: 10px;
     margin-left: 7%;
     border-radius: 1px;
-    border-color: #000000;
+    border-color: #030909;
 }
 .left_article {
 	height: auto;
@@ -625,7 +625,7 @@ h8 {
 	margin-bottom: 0px;
 	margin-left: 0px;
 	width: 100%;
-	background-color: #414141;
+	background-color: #4070CC;
 	clear: both;
 	overflow: auto;
 }
@@ -643,5 +643,5 @@ h8 {
 }
 #menu {
     border-radius: 0px;
-    border: 1px  #000000;
+    border: 1px  #030909;
 }
