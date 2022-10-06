@@ -41,12 +41,12 @@
 	float: left;
 	font-family: "Source Sans Pro";
 	color: #A5A5A5;
-	line-height: 24px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+	line-height: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
 	text-align: justify;
-	margin-top: 15px;
-	margin-bottom: 15px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 	padding-left: 0px;
 	padding-right: 0px;
 	margin-left: 0px;
@@ -58,18 +58,18 @@
 }
 .container .columns h4 {
 	text-align: center;
-	color: #01B2D1;
+	color: #bf0000;
 }
 .primary_header {
 	width: 100%;
-	background-color: #52bad5;
+	background-color: #bf0000;
 	padding-top: 10px;
 	clear: left;
-	border-bottom: 2px solid #2C9AB7;
+	border-bottom: 0px solid #bf0000;
 }
 .secondary_header {
     width: 100%;
-    padding-top: 50px;
+    padding-top: 1px;
     padding-bottom: 50px;
     background-color: #B3B3B3;
     clear: left;
@@ -79,12 +79,12 @@
 .container .secondary_header ul {
 	margin-top: 0%;
 	margin-right: auto;
-	margin-bottom: 0px;
+	margin-bottom: auto;
 	margin-left: auto;
-	padding-top: 0px;
-	padding-right: 0px;
-	padding-bottom: 15px;
-	padding-left: 0px;
+	padding-top: auto;
+	padding-right: auto;
+	padding-bottom: auto;
+	padding-left: auto;
 	width: 100%;
 }
 .secondary_header ul li {
@@ -198,7 +198,7 @@
 	height: 100%;
 }
 .left_half {
-	background-color: #52BAD5;
+	background-color: #bf0000;
 }
 .container .column_half.left_half h2 {
 	color: #FFFFFF;
@@ -231,7 +231,7 @@ body {
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
-    background-color: #52bad5;
+    background-color: #bf0000;
     font-size: 20px;
 }
 
