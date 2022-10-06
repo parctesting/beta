@@ -58,14 +58,14 @@
 }
 .container .columns h4 {
 	text-align: center;
-	color: #bf0000;
+	color: #950000;
 }
 .primary_header {
 	width: 100%;
-	background-color: #bf0000;
+	background-color: #950000;
 	padding-top: 10px;
 	clear: left;
-	border-bottom: 0px solid #bf0000;
+	border-bottom: 0px solid #950000;
 }
 .secondary_header {
     width: 100%;
@@ -198,7 +198,7 @@
 	height: 100%;
 }
 .left_half {
-	background-color: #bf0000;
+	background-color: #950000;
 }
 .container .column_half.left_half h2 {
 	color: #FFFFFF;
@@ -231,7 +231,7 @@ body {
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
-    background-color: #bf0000;
+    background-color: #950000;
     font-size: 20px;
 }
 
