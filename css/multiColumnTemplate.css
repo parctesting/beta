@@ -9,7 +9,7 @@
     padding-top: 0px;
     padding-right: 0px;
     padding-bottom: 0px;
-    color: #B50000;
+    color: #030909;
     font-family: Arial;
     font-size: 20px;
     text-align: left;
@@ -644,4 +644,23 @@ h8 {
 #menu {
     border-radius: 0px;
     border: 1px  #030909;
+}
+/* unvisited link */
+a:link {
+  color: #D30505;
+}
+
+/* visited link */
+a:visited {
+  color: #D30505;
+}
+
+/* mouse over link */
+a:hover {
+  color: black;
+}
+
+/* selected link */
+a:active {
+  color: #D30505;
 }
