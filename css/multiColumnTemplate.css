@@ -65,7 +65,7 @@
 	background-color: #B50000;
 	padding-top: 10px;
 	clear: left;
-	border-bottom: 0px solid #B50000;
+	border-bottom: 0px solid #4070CC;
 }
 .secondary_header {
     width: 100%;
@@ -102,7 +102,7 @@
 	transition: all 0.3s linear;
 }
 .secondary_header ul li:hover {
-	color: #4070CC;
+	color: #B50000;
 	cursor: pointer;
 }
 .left_article {
