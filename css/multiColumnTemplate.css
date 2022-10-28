@@ -102,7 +102,7 @@
 	transition: all 0.3s linear;
 }
 .secondary_header ul li:hover {
-	color: #808080;
+	color: #000000;
 	cursor: pointer;
 }
 .left_article {
