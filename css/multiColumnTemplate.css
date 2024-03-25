@@ -63,7 +63,7 @@
 .primary_header {
 	width: 100%;
 	background-color: #808080;
-	padding-top: 10px;
+	padding-top: 30px;
 	clear: left;
 	border-bottom: 0px solid #4070CC;
 }
@@ -106,13 +106,18 @@
 	cursor: pointer;
 }
 .left_article {
-    background-color: #F4F6F5;
     width: 60%;
     float: left;
     font-family: "Source Sans Pro";
     color: #4070CC;
     padding-bottom: 15px;
     text-indent: 20px;
+}
+.left_article2 {
+    width: 50%;
+    float: left;
+	background-color: #808080;	
+    padding-bottom: 18px;
 }
 .noDisplay {
 	display: none;
@@ -140,7 +145,13 @@
 .right_article {
 	width: 40%;
 	float: left;
-	background-color: #F4F6F5;
+}
+.right_article2 {
+    width: 50%;
+    float: right;
+	background-color: #808080;	
+    padding-bottom: 15px;
+}
 }
 .container .right_article ul {
 	margin-top: 0px;
@@ -156,7 +167,6 @@
 	font-family: "Source Sans Pro";
 	list-style: none;
 	text-align: center;
-	background-color: #F4F6F5;
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
@@ -164,7 +174,6 @@
 	margin-bottom: 10px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	color: #F4F6F5;
 	font-weight: bold;
 	border-radius: 0px;
 	transition: all 0.3s linear;
