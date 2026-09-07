@@ -43,10 +43,13 @@ printf '%s' "$PROD_DOMAIN" > "$BUILD/CNAME"
 # Written as `if` blocks, not `[ ... ] && { ... }`: under `set -e` a false test
 # makes the whole compound return 1 and kills the script silently.
 fail=0
-ENC=$(grep -rl 've-payload' "$BUILD/pages" 2>/dev/null | wc -l)
-PLAIN=$(grep -rlE 'read aloud|room scan procedure' "$BUILD/pages" 2>/dev/null \
-        | while read -r f; do grep -q 've-payload' "$f" || echo "$f"; done | wc -l)
-TOK=$(grep -ho '"token": "[a-f0-9]*"' "$BUILD/index.html" | sed 's/.*: "//;s/"//')
+# grep exits 1 when it finds nothing, which is a legitimate answer here. Under
+# `set -e` + pipefail that aborts the script mid-count, so each of these is
+# wrapped: the count is the signal, not grep's exit status.
+ENC=$( { grep -rl 've-payload' "$BUILD/pages" 2>/dev/null || true; } | wc -l)
+PLAIN=$( { grep -rlE 'read aloud|room scan procedure' "$BUILD/pages" 2>/dev/null || true; } \
+         | while read -r f; do grep -q 've-payload' "$f" || echo "$f"; done | wc -l)
+TOK=$( { grep -ho '"token": "[a-f0-9]*"' "$BUILD/index.html" || true; } | sed 's/.*: "//;s/"//')
 
 if [ -f "$BUILD/.nojekyll" ]; then echo "  FAIL .nojekyll present - would publish plaintext"; fail=1; fi
 if [ -d "$BUILD/_ve-source" ]; then echo "  FAIL _ve-source present"; fail=1; fi
