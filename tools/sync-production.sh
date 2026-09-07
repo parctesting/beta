@@ -40,17 +40,23 @@ printf '%s' "$PROD_DOMAIN" > "$BUILD/CNAME"
   node tools/build-search-index.mjs >/dev/null )
 
 # --- guards. Any failure here means do not publish. ---
+# Written as `if` blocks, not `[ ... ] && { ... }`: under `set -e` a false test
+# makes the whole compound return 1 and kills the script silently.
 fail=0
-LEAK=$(grep -rilE 'read aloud|room scan procedure' "$BUILD/pages" 2>/dev/null \
-       | xargs -r grep -lL 've-payload' 2>/dev/null | wc -l)
 ENC=$(grep -rl 've-payload' "$BUILD/pages" 2>/dev/null | wc -l)
-[ -f "$BUILD/.nojekyll" ]   && { echo "  FAIL .nojekyll present - would publish plaintext"; fail=1; }
-[ -d "$BUILD/_ve-source" ]  && { echo "  FAIL _ve-source present"; fail=1; }
-grep -q '_ve-source' "$BUILD/_config.yml" 2>/dev/null || { echo "  FAIL _config.yml missing its exclude list"; fail=1; }
-[ "$ENC" -lt 19 ] && { echo "  FAIL only $ENC encrypted VE pages, expected 19"; fail=1; }
+PLAIN=$(grep -rlE 'read aloud|room scan procedure' "$BUILD/pages" 2>/dev/null \
+        | while read -r f; do grep -q 've-payload' "$f" || echo "$f"; done | wc -l)
 TOK=$(grep -ho '"token": "[a-f0-9]*"' "$BUILD/index.html" | sed 's/.*: "//;s/"//')
-[ "$TOK" = "86375f5cd0ea45a9a9083404b92011b6" ] || { echo "  FAIL wrong analytics token: $TOK"; fail=1; }
-[ "$fail" = "1" ] && { echo "Refusing to publish."; exit 1; }
+
+if [ -f "$BUILD/.nojekyll" ]; then echo "  FAIL .nojekyll present - would publish plaintext"; fail=1; fi
+if [ -d "$BUILD/_ve-source" ]; then echo "  FAIL _ve-source present"; fail=1; fi
+if ! grep -q '_ve-source' "$BUILD/_config.yml" 2>/dev/null; then
+  echo "  FAIL _config.yml missing its exclude list"; fail=1; fi
+if [ "$ENC" -lt 19 ]; then echo "  FAIL only $ENC encrypted VE pages, expected 19"; fail=1; fi
+if [ "$PLAIN" -gt 0 ]; then echo "  FAIL $PLAIN page(s) carry script text without ciphertext"; fail=1; fi
+if [ "$TOK" != "86375f5cd0ea45a9a9083404b92011b6" ]; then
+  echo "  FAIL wrong analytics token: ${TOK:-none}"; fail=1; fi
+if [ "$fail" = "1" ]; then echo "Refusing to publish."; exit 1; fi
 
 echo "  ok  19 VE pages encrypted, no plaintext, exclude list present"
 echo "  ok  token $TOK, CNAME $(cat "$BUILD/CNAME")"
