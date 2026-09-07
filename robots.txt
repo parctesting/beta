@@ -1,4 +1,4 @@
-# radiotests.org
+# parcradio.net
 
 User-agent: *
 Allow: /
@@ -10,4 +10,4 @@ Allow: /
 # encrypted, so there is nothing to read even when fetched.
 Disallow: /ve/files/
 
-Sitemap: https://radiotests.org/sitemap.xml
+Sitemap: https://parcradio.net/sitemap.xml
