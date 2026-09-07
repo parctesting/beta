@@ -92,6 +92,10 @@ fi
 echo "Cloning production …"
 git clone -q --depth 20 --branch "$PROD_BRANCH" "$PROD_REPO" "$TMP/prod"
 git -C "$TMP/prod" remote set-url --push origin "$PUSH_REPO"
+# A fresh clone inherits nothing when there is no global git identity, and the
+# commit below then fails with "Author identity unknown". Carry this repo's.
+git -C "$TMP/prod" config user.name  "$(git config user.name)"
+git -C "$TMP/prod" config user.email "$(git config user.email)"
 cd "$TMP/prod"
 git checkout -q -b "$WORK_BRANCH"
 # Replace the tree: drop every tracked file, then lay the new build down.
