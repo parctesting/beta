@@ -18,8 +18,20 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-PROD_REPO="git@github.com:parctesting/parctesting.github.io.git"
+PROD_OWNER="parctesting"
+PROD_NAME="parctesting.github.io"
+PROD_REPO="git@github.com:$PROD_OWNER/$PROD_NAME.git"
 PROD_BRANCH="master"
+
+# Pushing straight to production needs write access to the parctesting account.
+# Without it, push to a fork instead and open a cross-repo PR - the normal
+# contributor route, and it needs nothing but a fork you own:
+#
+#   PROD_FORK=collinpikeusa ./tools/sync-production.sh --push
+#
+# Create the fork once at:
+#   https://github.com/parctesting/parctesting.github.io/fork
+PROD_FORK="${PROD_FORK:-}"
 WORK_BRANCH="production-facelift"
 PROD_DOMAIN="parcradio.org"
 PUSH="${1:-}"
@@ -70,8 +82,16 @@ if [ "$PUSH" != "--push" ]; then
   exit 0
 fi
 
+if [ -n "$PROD_FORK" ]; then
+  PUSH_REPO="git@github.com:$PROD_FORK/$PROD_NAME.git"
+  echo "Pushing to fork $PROD_FORK/$PROD_NAME (PR will target $PROD_OWNER)"
+else
+  PUSH_REPO="$PROD_REPO"
+fi
+
 echo "Cloning production …"
 git clone -q --depth 20 --branch "$PROD_BRANCH" "$PROD_REPO" "$TMP/prod"
+git -C "$TMP/prod" remote set-url --push origin "$PUSH_REPO"
 cd "$TMP/prod"
 git checkout -q -b "$WORK_BRANCH"
 # Replace the tree: drop every tracked file, then lay the new build down.
@@ -90,4 +110,8 @@ exclude: list keeps their plaintext out of the published site."
 git push -u origin "$WORK_BRANCH"
 echo
 echo "Open the PR:"
-echo "  https://github.com/parctesting/parctesting.github.io/compare/$PROD_BRANCH...$WORK_BRANCH?expand=1"
+if [ -n "$PROD_FORK" ]; then
+  echo "  https://github.com/$PROD_OWNER/$PROD_NAME/compare/$PROD_BRANCH...$PROD_FORK:$WORK_BRANCH?expand=1"
+else
+  echo "  https://github.com/$PROD_OWNER/$PROD_NAME/compare/$PROD_BRANCH...$WORK_BRANCH?expand=1"
+fi
