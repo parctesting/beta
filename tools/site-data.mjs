@@ -257,7 +257,7 @@ export const PAGES = {
   'pages/reviews.html': {
     scripts: ['/js/reviews.js'],
     title: 'Reviews — What Candidates Say About PARC',
-    desc: 'Read what candidates say about taking their amateur radio licence exam with PARC, and leave a review of your own session.',
+    desc: 'Read what candidates say about taking their amateur radio license exam with PARC, and leave a review of your own session.',
     h1: 'Reviews',
   },
   'pages/troubleshooting.html': {
