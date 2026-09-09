@@ -1,58 +1,86 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 400" width="620" height="400" role="img" aria-labelledby="esl-t esl-d">
 <title id="esl-t">How to size your browser window before the exam</title>
-<desc id="esl-d">A desktop with a single browser window open. The window is large, but it stops short of every edge of the screen, so a band of desktop stays visible above it, below it, to its left and to its right. It is not maximized and does not fill the screen.</desc>
+<desc id="esl-d">A desktop with one browser window open on the ExamTools applicant login page, showing the Join an Exam Session form with the team identifier PARC and a user PIN box. The window is large, but it stops short of every edge of the screen, so desktop stays visible above it, below it, to its left and to its right. It is not maximized and does not fill the screen.</desc>
+<defs>
+  <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M0,0 L8,4 L0,8 z" fill="#8E0004"/>
+  </marker>
+</defs>
 <style>
   .lbl { font: 600 13px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill:#14171A; }
-  .sub { font: 400 12px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill:#5C6672; }
-  .win { font: 600 11px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill:#3C4550; }
+  .sub { font: 400 11px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill:#5C6672; }
+  .tiny{ font: 400 8px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill:#8892A0; }
   .gap { font: 700 11px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill:#8E0004; }
 </style>
 
 <!-- monitor + desktop -->
 <rect x="18" y="14" width="584" height="330" rx="10" fill="#2B3138"/>
-<rect x="28" y="24" width="564" height="300" rx="4" fill="#8FA9BE"/>
-<rect x="28" y="236" width="564" height="64" fill="#7E9BB2"/>
-<rect x="28" y="300" width="564" height="24" fill="#22303C" opacity=".92"/>
-<g fill="#C6D3DD">
-  <rect x="252" y="307" width="10" height="10" rx="2"/><rect x="272" y="307" width="10" height="10" rx="2"/>
-  <rect x="292" y="307" width="10" height="10" rx="2"/><rect x="312" y="307" width="10" height="10" rx="2"/>
-  <rect x="332" y="307" width="10" height="10" rx="2"/><rect x="352" y="307" width="10" height="10" rx="2"/>
+<rect x="28" y="24" width="564" height="300" rx="4" fill="#9E8FA8"/>
+<rect x="28" y="150" width="564" height="152" fill="#8C7F98"/>
+<!-- menu bar -->
+<rect x="28" y="24" width="564" height="13" fill="#4A4453" opacity=".55"/>
+<circle cx="36" cy="30.5" r="3" fill="#EDE9F0"/>
+<g fill="#EDE9F0" opacity=".85">
+  <rect x="46" y="28" width="16" height="5" rx="1"/><rect x="68" y="28" width="12" height="5" rx="1"/>
+  <rect x="86" y="28" width="14" height="5" rx="1"/><rect x="106" y="28" width="12" height="5" rx="1"/>
+  <rect x="540" y="28" width="42" height="5" rx="1"/>
+</g>
+<!-- desktop icons on the right, as in the example -->
+<g>
+  <rect x="546" y="52" width="26" height="20" rx="3" fill="#E9C77A" stroke="#C9A227"/>
+  <rect x="546" y="96" width="26" height="20" rx="3" fill="#E9C77A" stroke="#C9A227"/>
+</g>
+<!-- dock -->
+<rect x="150" y="302" width="320" height="22" rx="8" fill="#F2F0F5" opacity=".82"/>
+<g fill="#7E8896">
+  <rect x="164" y="307" width="12" height="12" rx="3"/><rect x="182" y="307" width="12" height="12" rx="3"/>
+  <rect x="200" y="307" width="12" height="12" rx="3"/><rect x="218" y="307" width="12" height="12" rx="3"/>
+  <rect x="236" y="307" width="12" height="12" rx="3"/><rect x="254" y="307" width="12" height="12" rx="3"/>
+  <rect x="272" y="307" width="12" height="12" rx="3"/><rect x="290" y="307" width="12" height="12" rx="3"/>
+  <rect x="308" y="307" width="12" height="12" rx="3"/><rect x="326" y="307" width="12" height="12" rx="3"/>
+  <rect x="344" y="307" width="12" height="12" rx="3"/><rect x="362" y="307" width="12" height="12" rx="3"/>
+  <rect x="380" y="307" width="12" height="12" rx="3"/><rect x="398" y="307" width="12" height="12" rx="3"/>
+  <rect x="416" y="307" width="12" height="12" rx="3"/><rect x="434" y="307" width="12" height="12" rx="3"/>
 </g>
 <rect x="270" y="344" width="80" height="14" fill="#5C6672"/>
 <rect x="228" y="358" width="164" height="10" rx="4" fill="#2B3138"/>
 
 <!-- the space left showing on each side -->
-<g stroke="#8E0004" stroke-width="1.5" stroke-dasharray="5 4">
-  <line x1="310" y1="27" x2="310" y2="45"/>
-  <line x1="310" y1="279" x2="310" y2="297"/>
-  <line x1="34"  y1="164" x2="140" y2="164"/>
-  <line x1="480" y1="164" x2="586" y2="164"/>
+<g stroke="#8E0004" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)">
+  <line x1="284" y1="40"  x2="284" y2="58"/>
+  <line x1="284" y1="290" x2="284" y2="301"/>
+  <line x1="33"  y1="176" x2="61"  y2="176"/>
+  <line x1="507" y1="176" x2="539" y2="176"/>
 </g>
-<text class="gap" x="318" y="41">space</text>
-<text class="gap" x="318" y="293">space</text>
-<text class="gap" x="87"  y="157" text-anchor="middle">space</text>
-<text class="gap" x="533" y="157" text-anchor="middle">space</text>
 
-<!-- browser window: large, but clear of every edge -->
-<rect x="146" y="48" width="328" height="228" rx="7" fill="#fff" stroke="#4A555F" stroke-width="1.2"/>
-<rect x="146" y="48" width="328" height="26" rx="7" fill="#DDE4EA"/>
-<rect x="146" y="66" width="328" height="8" fill="#DDE4EA"/>
-<rect x="160" y="54" width="96" height="15" rx="4" fill="#fff" stroke="#C0CAD3"/>
-<text class="win" x="208" y="65" text-anchor="middle">New Tab</text>
-<text class="win" x="268" y="66" font-size="13">+</text>
-<text class="win" x="424" y="66" font-size="12">&#8211;  &#9633;  &#215;</text>
-<rect x="146" y="74" width="328" height="28" fill="#F4F6F8"/>
-<circle cx="164" cy="88" r="5.5" fill="none" stroke="#8892A0"/>
-<circle cx="182" cy="88" r="5.5" fill="none" stroke="#8892A0"/>
-<rect x="198" y="79" width="228" height="18" rx="9" fill="#fff" stroke="#C0CAD3"/>
-<text class="sub" x="312" y="92" text-anchor="middle" font-size="11">examtools.org</text>
-<rect x="170" y="116" width="280" height="34" rx="4" fill="#2B3138"/>
-<text x="310" y="139" text-anchor="middle" fill="#F2C230" font-family="system-ui, sans-serif" font-size="15" font-weight="700">EXAMTOOLS</text>
-<rect x="170" y="164" width="280" height="62" rx="4" fill="#F7F9FA" stroke="#DDE3E9"/>
-<text class="lbl" x="310" y="187" text-anchor="middle">Take an exam</text>
-<rect x="196" y="196" width="228" height="20" rx="3" fill="#fff" stroke="#93A1AC"/>
-<text class="sub" x="310" y="210" text-anchor="middle" font-size="11">Join Exam Session</text>
-<text class="sub" x="310" y="254" text-anchor="middle">Not maximized</text>
+<!-- browser window: large and landscape, clear of every edge -->
+<rect x="64" y="60" width="440" height="226" rx="8" fill="#fff" stroke="#4A555F" stroke-width="1.2"/>
+<rect x="64" y="62" width="440" height="26" rx="8" fill="#EDEFF2"/>
+<rect x="64" y="80" width="440" height="8" fill="#EDEFF2"/>
+<circle cx="78"  cy="75" r="4.5" fill="#FF5F57"/>
+<circle cx="93"  cy="75" r="4.5" fill="#FEBC2E"/>
+<circle cx="108" cy="75" r="4.5" fill="#28C840"/>
+<rect x="212" y="68" width="144" height="15" rx="7" fill="#F7F8FA" stroke="#D3D8DE"/>
+<text class="sub" x="284" y="79" text-anchor="middle" font-size="10">&#128274; exam.tools</text>
+<rect x="64" y="88" width="440" height="14" fill="#F7F8FA"/>
+<text class="tiny" x="284" y="98" text-anchor="middle">ExamTools: Applicant login</text>
+
+<!-- examtools page -->
+<rect x="64" y="102" width="440" height="164" fill="#F1EFEC"/>
+<text x="284" y="132" text-anchor="middle" fill="#C9A227" font-family="system-ui, sans-serif" font-size="19" font-weight="700">EXAM<tspan fill="#B9AFA0">TOOLS</tspan></text>
+<rect x="184" y="146" width="200" height="98" rx="5" fill="#FBFAF9" stroke="#DED8D0"/>
+<circle cx="200" cy="162" r="7" fill="#8C8378"/>
+<text class="lbl" x="292" y="166" text-anchor="middle" font-size="11">Join an Exam Session</text>
+<text x="200" y="186" fill="#C9A227" font-family="system-ui, sans-serif" font-size="7">Team Identifier</text>
+<text x="284" y="198" text-anchor="middle" fill="#2B3138" font-family="system-ui, sans-serif" font-size="12" font-weight="600">PARC</text>
+<line x1="200" y1="202" x2="368" y2="202" stroke="#C9A227" stroke-width="1.2"/>
+<text class="tiny" x="200" y="216">User PIN</text>
+<line x1="200" y1="220" x2="368" y2="220" stroke="#C6BFB6"/>
+<rect x="196" y="228" width="176" height="12" rx="2" fill="#C9A227"/>
+<text x="284" y="237" text-anchor="middle" fill="#fff" font-family="system-ui, sans-serif" font-size="7" font-weight="700">JOIN SESSION</text>
+<rect x="64" y="266" width="440" height="24" fill="#3F4A55"/>
+<text class="tiny" x="284" y="281" text-anchor="middle" fill="#D6DCE2">&#169; 2026 &#8212; Signal Stuff</text>
+<text class="sub" x="284" y="258" text-anchor="middle" font-size="10">Not maximized</text>
 
 <!-- caption -->
 <text class="lbl" x="318" y="386" text-anchor="middle">Large is fine &#8212; just leave desktop showing on all four sides</text>
