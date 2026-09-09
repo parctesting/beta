@@ -18,7 +18,7 @@ const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
 
 const ALT = {
   'DesktopSetup.png':
-    'Overhead diagram of a correct exam desk: laptop centred with its camera facing the ' +
+    'Overhead diagram of a correct exam desk: laptop centered with its camera facing the ' +
     'examinee, the room door inside the camera view, and a phone clipped upright in a stand ' +
     'at the front edge of the desk in horizontal orientation. A phone lying flat on the desk ' +
     'is crossed out.',
@@ -40,7 +40,7 @@ const ALT = {
     'candidate’s signature.',
   'exam2.png':
     'Screenshot of the Review Quick Form 605, showing the candidate’s name, address, and ' +
-    'licence details for checking before signing.',
+    'license details for checking before signing.',
   'exam3.png':
     'Screenshot of the CSCE (Certificate of Successful Completion of Examination) shown for ' +
     'review before signing.',
