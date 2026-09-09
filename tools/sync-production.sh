@@ -111,7 +111,11 @@ CNAME, canonicals, sitemap, robots and the analytics token all name .org.
 
 The 19 VE pages are AES-256-GCM ciphertext with an unlock shell, and the
 exclude: list keeps their plaintext out of the published site."
-git push -u origin "$WORK_BRANCH"
+# Force is correct here, not a shortcut. This branch is not developed on: every
+# run recreates it from production's master and replaces the whole tree, so a new
+# build is never a descendant of the last one and a plain push always rejects.
+# Nothing is lost - the content comes from this repo, which has the real history.
+git push -u --force origin "$WORK_BRANCH"
 echo
 echo "Open the PR:"
 if [ -n "$PROD_FORK" ]; then
