@@ -218,7 +218,14 @@
         state.data.sources.forEach(function (s) { state.sessions[s.letter] = true; });
         BANDS.forEach(function (b) { state.bands[b.id] = true; });
 
-        var first = state.data.slots[0];
+        /* Open on the first time that can still be booked. The snapshot the page
+           falls back to is refreshed every few hours, so it always holds slots that
+           have already started - its first entry can be yesterday. */
+        var now = Date.now(), first = null;
+        state.data.slots.forEach(function (s) {
+          var t = new Date(s.start).getTime();
+          if (t > now && (!first || t < new Date(first.start).getTime())) first = s;
+        });
         var base = first ? new Date(first.start) : new Date();
         state.month = { y: Number(dayKey(base, state.tz).slice(0, 4)),
                         m: Number(dayKey(base, state.tz).slice(5, 7)) - 1 };
@@ -375,8 +382,13 @@
   /** Slots passing the current session + time-of-day filters, grouped by day. */
   function visibleByDay() {
     var out = {};
+    /* A slot that has already started cannot be booked, and offering one sends a
+       candidate to a Calendly page that turns them away. Checked on every render,
+       so a tab left open overnight drops them as well. */
+    var now = Date.now();
     state.data.slots.forEach(function (s) {
       var d = new Date(s.start);
+      if (d.getTime() <= now) return;
       var keep = s.sessions.filter(function (x) { return state.sessions[x.letter]; });
       if (state.youthOnly) keep = keep.filter(function (x) { return x.letter === 'Y'; });
       if (!keep.length) return;
