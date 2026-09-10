@@ -517,8 +517,11 @@
       function (a, b) { return (b.remaining || 0) > (a.remaining || 0) ? b : a; },
       slot.sessions[0]);
     var iso = slot.start;                       // keep the original offset
-    return 'https://calendly.com/parctesting/' + best.slug + '/' + iso +
-           '?month=' + iso.slice(0, 7) + '&date=' + iso.slice(0, 10);
+    var url = 'https://calendly.com/parctesting/' + best.slug + '/' + iso +
+              '?month=' + iso.slice(0, 7) + '&date=' + iso.slice(0, 10);
+    /* Carry where this visitor came from onto the booking, so Calendly can count
+       scheduled exams by source. The capture and tagging live in js/site.js. */
+    return window.parcTagBooking ? window.parcTagBooking(url) : url;
   }
 
   function renderDay(byDay) {
