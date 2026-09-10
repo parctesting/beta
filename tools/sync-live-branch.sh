@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
-# Rebuild the live radiotests.org branch from the production branch.
+# Rebuild the parcradio.net branch from main.
 #
 #   PARC_PASSCODE=... ./tools/sync-live-branch.sh
 #
+# main is the live site: Pages serves radiotests.org from it, so main is built
+# for radiotests.org and carries that CNAME. parcradio-net is the same tree
+# rebuilt for parcradio.net, and is what upstream PRs come from.
+#
 # The two branches must differ in exactly two ways: the CNAME file, and the
 # SITE_ORIGIN the build is run with. Everything else is identical.
+#
+# The direction used to be the other way round - a production branch synced out
+# to a preview branch. Do not restore that: whichever branch Pages serves has to
+# be the one carrying the live CNAME and the live analytics token, or the site
+# advertises the wrong canonical and files its traffic under the wrong domain.
 #
 # This exists because doing it by hand went wrong twice. Copying only
 # `tools css js` left pages/ behind, so a label edited on the production branch
@@ -15,9 +24,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-SRC_BRANCH="facelift-and-ve-lock"
-LIVE_BRANCH="gh-pages-preview"
-LIVE_DOMAIN="radiotests.org"
+SRC_BRANCH="main"            # the live site (radiotests.org)
+LIVE_BRANCH="parcradio-net"  # derived; the source for PRs to upstream
+LIVE_DOMAIN="parcradio.net"
 
 if [ -n "$(git status --porcelain)" ]; then
   echo "Working tree is not clean. Commit or stash first —"
