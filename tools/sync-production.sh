@@ -41,6 +41,7 @@ PUSH="${1:-}"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 BUILD="$TMP/build"; mkdir -p "$BUILD"
+SRC_SHA=$(git rev-parse --short HEAD)
 
 echo "Building for $PROD_DOMAIN …"
 git archive HEAD | tar -x -C "$BUILD"
@@ -116,15 +117,16 @@ cp -a "$BUILD/." .
 if [ -f "$SNAP_KEEP" ]; then cp "$SNAP_KEEP" data/availability.json; fi
 cp -a "$VE_KEEP/." .
 git add -A
-git commit -q -m "Replace the 2019 site with the current build
+git commit -q -m "Update parcradio.org to the current build
 
-Production was still the pre-facelift site, and with no _config.yml it served
-all 15 VE exam scripts in plaintext at guessable URLs. This replaces the tree
-with the build already running on parcradio.net, rebuilt for parcradio.org:
-CNAME, canonicals, sitemap, robots and the analytics token all name .org.
+Built from parc-website-beta@$SRC_SHA and rebuilt for parcradio.org: CNAME,
+canonicals, sitemap, robots and the analytics token all name .org. The 19 VE
+pages are AES-256-GCM ciphertext with an unlock shell, and the exclude: list
+keeps their plaintext out of the published site.
 
-The 19 VE pages are AES-256-GCM ciphertext with an unlock shell, and the
-exclude: list keeps their plaintext out of the published site."
+Production's own availability snapshot and VE pages are kept as they are: the
+scheduled job owns the snapshot, and the private VE_Scripts deploy owns the VE
+pages."
 # Force is correct here, not a shortcut. This branch is not developed on: every
 # run recreates it from production's master and replaces the whole tree, so a new
 # build is never a descendant of the last one and a plain push always rejects.
