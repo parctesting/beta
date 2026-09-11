@@ -116,6 +116,7 @@ fi
 
 echo
 WANT=$(SITE_ORIGIN="https://$DOMAIN" node -e "import('./tools/site-data.mjs').then(m => console.log(m.SITE.analyticsToken))")
+CANON=$(node -e "import('./tools/site-data.mjs').then(m => console.log(m.SITE.canonicalOrigin))")
 fail=0
 ok()  { printf "  ok    %s\n" "$1"; }
 bad() { printf "  FAIL  %s\n" "$1"; fail=1; }
@@ -127,10 +128,10 @@ for f in index.html pages/*.html; do
   if grep -q 'name="robots"[^>]*noindex' "$f"; then continue; fi
   t=$(grep -ho '"token": "[a-f0-9]*"' "$f" | head -1 | sed 's/.*: "//;s/"//' || true)
   c=$(grep -o 'rel="canonical" href="[^"]*"' "$f" | head -1 || true)
-  case "$c" in *"https://$DOMAIN/"*) ;; *) wrong="$wrong $f" ;; esac
+  case "$c" in *"$CANON/"*) ;; *) wrong="$wrong $f" ;; esac
   if [ "$t" != "$WANT" ]; then wrong="$wrong $f"; fi
 done
-if [ -z "$wrong" ]; then ok "every public page names $DOMAIN and carries its token"; else bad "wrong domain values in:$wrong"; fi
+if [ -z "$wrong" ]; then ok "every public page credits $CANON and carries $DOMAIN's token"; else bad "wrong canonical or token in:$wrong"; fi
 
 if grep -q "https://$DOMAIN/" sitemap.xml; then ok "sitemap names $DOMAIN"; else bad "sitemap does not name $DOMAIN"; fi
 if [ -z "$(markers)" ]; then ok "no conflict markers"; else bad "conflict markers present"; fi

@@ -10,4 +10,5 @@ Allow: /
 # encrypted, so there is nothing to read even when fetched.
 Disallow: /ve/files/
 
-Sitemap: https://radiotests.org/sitemap.xml
+# No Sitemap line: this copy's pages name https://parcradio.org as canonical,
+# and a sitemap here would list the non-canonical addresses.
