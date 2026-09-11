@@ -45,6 +45,7 @@ export const SITE = {
   veEmail: 've@parcradio.org',
   address: { po: 'PO Box 926', city: 'Roanoke', state: 'AL', zip: '36274-0926', country: 'USA' },
   facebook: 'https://www.facebook.com/groups/833919518104689',
+  telegram: 'https://t.me/+d32UCpaXRLhiNjJh',
   paypalButton: 'FG837WNAHF4P4',
   banner: '/images/banner-1600.jpg',
   bannerMobile: '/images/banner-900.jpg',
