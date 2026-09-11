@@ -201,6 +201,7 @@ export function buildFooter(rel = 'index.html') {
         <li><a href="${link(rel, '/pages/handiham.html')}">Accessible testing</a></li>
         <li><a href="${link(rel, '/pages/donations.html')}">Support PARC</a></li>
         <li><a href="${esc(SITE.facebook)}" target="_blank" rel="noopener">Facebook group</a></li>
+        <li><a href="${esc(SITE.telegram)}" target="_blank" rel="noopener">Telegram group</a></li>
       </ul>
     </div>
   </div>
