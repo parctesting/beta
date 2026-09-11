@@ -103,9 +103,18 @@ git checkout -q -b "$WORK_BRANCH"
 # Taking ours would put a stale copy in the PR and roll production's back.
 SNAP_KEEP="$TMP/availability.json"
 if [ -f data/availability.json ]; then cp data/availability.json "$SNAP_KEEP"; fi
+# The VE pages are owned by the private VE_Scripts repo, whose deploy workflow
+# encrypts them straight into production. Keep production's copies, or a site
+# update from here would roll every script back to whatever this repo last had.
+VE_KEEP="$TMP/ve-keep"; mkdir -p "$VE_KEEP"
+VE_OUT=$(cd "$BUILD" && node -e "import('./tools/site-data.mjs').then(m => console.log(m.VE_PAGES.join('\n')))")
+for f in $VE_OUT js/ve-manifest.json $(ls ve/files/* 2>/dev/null); do
+  if [ -f "$f" ]; then mkdir -p "$VE_KEEP/$(dirname "$f")"; cp "$f" "$VE_KEEP/$f"; fi
+done
 git rm -rq . >/dev/null
 cp -a "$BUILD/." .
 if [ -f "$SNAP_KEEP" ]; then cp "$SNAP_KEEP" data/availability.json; fi
+cp -a "$VE_KEEP/." .
 git add -A
 git commit -q -m "Replace the 2019 site with the current build
 

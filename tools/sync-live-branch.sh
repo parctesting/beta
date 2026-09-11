@@ -107,6 +107,16 @@ if [ -n "$(git status --porcelain -- index.html 404.html pages)" ]; then
   echo "  rebuilt pages that arrived with another domain's values"
 fi
 
+# The VE pages are upstream's too. The private VE_Scripts repo's deploy workflow
+# encrypts them straight into parctesting/beta, so a PR from here must never carry
+# older copies back over them.
+VE_OUT=$(node -e "import('./tools/site-data.mjs').then(m => console.log(m.VE_PAGES.join(' ')))")
+git checkout upstream/main -- $VE_OUT js/ve-manifest.json ve/files 2>/dev/null || true
+if ! git diff --cached --quiet -- $VE_OUT js/ve-manifest.json ve/files; then
+  git commit -q -m "Carry upstream's VE pages" -- $VE_OUT js/ve-manifest.json ve/files
+  echo "  took upstream's VE pages"
+fi
+
 # The snapshot is upstream's, whatever either merge did to it.
 git checkout upstream/main -- "$SNAP"
 if ! git diff --cached --quiet -- "$SNAP"; then
