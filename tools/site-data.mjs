@@ -58,8 +58,12 @@ export const SITE = {
   banner: '/images/banner-1600.jpg',
   bannerMobile: '/images/banner-900.jpg',
   ogImage: '/images/og-parc.jpg',
-  // Paste the token from Search Console -> Settings -> Ownership verification.
-  googleSiteVerification: '',
+  /* Ownership of parcradio.org is verified in Search Console as a DNS *domain*
+     property, which covers every subdomain and both protocols - stronger than a
+     URL prefix, and it cannot be broken by a page edit. This tag is a harmless
+     second method; if Search Console ever issues a different token for the
+     HTML-tag method, paste that one here instead. */
+  googleSiteVerification: 'Qgf_7BEJyxvtJa5wpbbwUiHJSL-rnJdlhxHs4_h0uow',
 
   /* Cloudflare Web Analytics, one token per site.
      Deliberately this and not Google Analytics: the schedule page asks minors
