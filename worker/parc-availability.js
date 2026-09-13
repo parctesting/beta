@@ -97,9 +97,6 @@ function originAllowed(origin) {
   return ALLOWED_DOMAINS.some((d) => host === d || host.endsWith('.' + d));
 }
 
-const PROFILE_TTL = 3600;   // event-type list: changes rarely
-const RANGE_TTL = 60;       // availability: fresh enough to act on, gentle upstream
-
 const DAY_MS = 86400000;
 
 /* Calendly's range endpoint refuses long spans. Measured 2026-09-13: 35 days
@@ -113,12 +110,21 @@ const MAX_SPAN_DAYS = 35;
    budget on years that will never have a session. */
 const MAX_MONTHS_AHEAD = 12;
 
+/* Calendly is always asked in one zone. The page places every time in the
+   candidate's own zone itself, and a month's day of margin covers every US zone,
+   so asking in each viewer's zone only multiplied the distinct URLs — and with
+   them the calls Calendly counts against this Worker. */
+const QUERY_TZ = 'America/Chicago';
+
 const isoDate = (ms) => new Date(ms).toISOString().slice(0, 10);
 
 /** The dates to ask Calendly for, from ?month= or else ?days=. */
 function requestedRange(params) {
-  const now = new Date();
-  const today = isoDate(now.getTime());
+  const now = Date.now();
+  /* Yesterday's date rather than today's. A UTC date runs ahead of US evenings,
+     so starting from "today" dropped the rest of the evening's sessions once it
+     was past midnight in London. The page discards anything already started. */
+  const earliest = isoDate(now - DAY_MS);
   const month = params.get('month') || '';
 
   if (/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) {
@@ -129,14 +135,101 @@ function requestedRange(params) {
        the month, as they see it, can sit on the neighboring month's dates. */
     const from = isoDate(Date.UTC(y, m - 1, 1) - DAY_MS);
     const to = isoDate(Date.UTC(y, m, 0) + DAY_MS);     // day 0 of the next month is this month's last day
-    const start = from < today ? today : from;          // Calendly has nothing bookable in the past
-    const ahead = (y - now.getUTCFullYear()) * 12 + (m - 1 - now.getUTCMonth());
+    const start = from < earliest ? earliest : from;    // Calendly has nothing bookable in the past
+    const t = new Date(now);
+    const ahead = (y - t.getUTCFullYear()) * 12 + (m - 1 - t.getUTCMonth());
     return { month, start, end: to, empty: to < start || ahead > MAX_MONTHS_AHEAD };
   }
 
   const asked = parseInt(params.get('days') || '14', 10);
-  const days = Math.min(Math.max(Number.isFinite(asked) ? asked : 14, 1), MAX_SPAN_DAYS);
-  return { month: null, start: today, end: isoDate(now.getTime() + days * DAY_MS), empty: false };
+  // One day short of the limit: the span also includes yesterday.
+  const days = Math.min(Math.max(Number.isFinite(asked) ? asked : 14, 1), MAX_SPAN_DAYS - 1);
+  return { month: null, start: earliest, end: isoDate(now + days * DAY_MS), empty: false };
+}
+
+/* ---- upstream cache -------------------------------------------------------
+ * Calendly throttles this endpoint hard. On 2026-09-13 a burst of about a
+ * hundred calls in three minutes — just from verifying this Worker — got its
+ * Cloudflare edge refused outright, and every request failed for a couple of
+ * minutes. There was no cache to soften it: the cf cache options this Worker
+ * used to pass do nothing on workers.dev, so every candidate's click cost seven
+ * or eight fresh Calendly calls.
+ *
+ * So, cheapest first:
+ *  - an in-memory copy of each Calendly reply, fresh for FRESH_MS, shared by
+ *    every request this isolate serves;
+ *  - requests that arrive together for the same URL share one fetch;
+ *  - the Cache API, as a colo-wide copy wherever Cloudflare offers it;
+ *  - and if Calendly refuses, the last good copy for up to STALE_MS, with the
+ *    reply marked stale so the page can say when it was checked. A finder that
+ *    is a few hours behind beats a blank calendar; Calendly confirms at booking.
+ */
+const FRESH_MS = 5 * 60 * 1000;
+const STALE_MS = 6 * 60 * 60 * 1000;
+const PROFILE_FRESH_MS = 60 * 60 * 1000;
+const MEMORY_LIMIT = 300;
+
+const memory = new Map();     // Calendly URL -> { at, data }
+const inflight = new Map();   // Calendly URL -> Promise<{ at, data }>
+const EDGE_KEY = 'https://availability-cache.parcradio.invalid/?u=';
+
+function remember(url, entry) {
+  memory.delete(url);
+  memory.set(url, entry);
+  if (memory.size > MEMORY_LIMIT) memory.delete(memory.keys().next().value);
+}
+
+async function edgeGet(url) {
+  try {
+    if (typeof caches === 'undefined') return null;
+    const hit = await caches.default.match(EDGE_KEY + encodeURIComponent(url));
+    return hit ? await hit.json() : null;
+  } catch { return null; }
+}
+
+async function edgePut(url, entry) {
+  try {
+    if (typeof caches === 'undefined') return;
+    await caches.default.put(EDGE_KEY + encodeURIComponent(url), new Response(JSON.stringify(entry), {
+      headers: { 'content-type': 'application/json', 'cache-control': `max-age=${STALE_MS / 1000}` },
+    }));
+  } catch { /* no Cache API here - the in-memory copy still stands */ }
+}
+
+/** A Calendly reply: { data, at, stale }. Throws only when there is nothing to fall back on. */
+async function upstream(url, freshMs = FRESH_MS) {
+  const held = memory.get(url);
+  if (held && Date.now() - held.at < freshMs) return { ...held, stale: false };
+
+  const edge = await edgeGet(url);
+  if (edge && Date.now() - edge.at < freshMs) { remember(url, edge); return { ...edge, stale: false }; }
+
+  let job = inflight.get(url);
+  if (!job) {
+    job = (async () => {
+      try {
+        const res = await fetch(url, {
+          headers: { 'accept': 'application/json', 'user-agent': 'parcradio.net availability merger' },
+        });
+        if (!res.ok) throw new Error(`upstream ${res.status}`);
+        const entry = { at: Date.now(), data: await res.json() };
+        remember(url, entry);
+        await edgePut(url, entry);
+        return entry;
+      } finally {
+        inflight.delete(url);
+      }
+    })();
+    inflight.set(url, job);
+  }
+
+  try {
+    return { ...(await job), stale: false };
+  } catch (err) {
+    const fallback = [memory.get(url), edge].filter(Boolean).sort((a, b) => b.at - a.at)[0];
+    if (fallback && Date.now() - fallback.at < STALE_MS) return { ...fallback, stale: true };
+    throw err;
+  }
 }
 
 function corsHeaders(origin) {
@@ -148,20 +241,11 @@ function corsHeaders(origin) {
   };
 }
 
-async function cachedJson(url, ttl) {
-  const res = await fetch(url, {
-    cf: { cacheTtl: ttl, cacheEverything: true },
-    headers: { 'accept': 'application/json', 'user-agent': 'parcradio.net availability merger' },
-  });
-  if (!res.ok) throw new Error(`upstream ${res.status} for ${url}`);
-  return res.json();
-}
-
 /** Resolve event names -> UUIDs. Done by name so a slug rename in Calendly
  *  doesn't break the merge. */
 async function resolveEventTypes(includeYouth) {
-  const list = await cachedJson(
-    `https://calendly.com/api/booking/profiles/${PROFILE}/event_types`, PROFILE_TTL);
+  const { data: list } = await upstream(
+    `https://calendly.com/api/booking/profiles/${PROFILE}/event_types`, PROFILE_FRESH_MS);
   const wanted = includeYouth ? SESSIONS.concat([YOUTH]) : SESSIONS;
   const out = [];
   for (const s of wanted) {
@@ -195,7 +279,7 @@ export default {
     });
 
     // A month already over, or too far out: nothing to ask Calendly.
-    if (range.empty) return reply({ sources: [], partial: false, slots: [] });
+    if (range.empty) return reply({ sources: [], partial: false, stale: false, slots: [] });
 
     try {
       const types = await resolveEventTypes(includeYouth);
@@ -203,18 +287,19 @@ export default {
 
       const results = await Promise.allSettled(types.map(async (t) => {
         const u = `https://calendly.com/api/booking/event_types/${t.uuid}/calendar/range`
-          + `?timezone=${encodeURIComponent(tz)}&diagnostics=false`
+          + `?timezone=${encodeURIComponent(QUERY_TZ)}&diagnostics=false`
           + `&range_start=${range.start}&range_end=${range.end}`;
-        return { type: t, data: await cachedJson(u, RANGE_TTL) };
+        return { type: t, ...(await upstream(u)) };
       }));
 
       // Merge: one entry per start instant, listing which sessions offer it.
       const bucket = new Map();
-      let okCount = 0;
+      let okCount = 0, stale = false, oldest = Infinity;
       for (const r of results) {
         if (r.status !== 'fulfilled') continue;
         okCount++;
         const { type, data } = r.value;
+        if (r.value.stale) { stale = true; oldest = Math.min(oldest, r.value.at); }
         for (const day of data.days || []) {
           if (day.status !== 'available') continue;
           for (const spot of day.spots || []) {
@@ -234,7 +319,9 @@ export default {
 
       return reply({
         sources: types.map((t) => ({ letter: t.letter, slug: t.slug, youth: t.youth })),
-        partial: okCount < types.length,   // some calendars failed; page can note it
+        partial: okCount < types.length,   // some calendars failed outright; page can note it
+        stale,                             // some came from the fallback copy
+        ...(stale ? { checkedAt: new Date(oldest).toISOString() } : {}),
         slots,
       });
     } catch (err) {
