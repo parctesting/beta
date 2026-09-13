@@ -75,6 +75,12 @@
      an older Worker, which ignores month=, still returns as much as it can. */
   var LEGACY_DAYS = 35;
 
+  /* A month loads once the candidate stops on it. Clicking through five months to
+     reach the one they want should fetch that one, not all five: each month is
+     several calls to Calendly, which throttles hard. */
+  var SETTLE_MS = 350;
+  var settleTimer = null;
+
   /* Time-of-day buckets, so "I can only test after work" is one click.
      Listed in clock order across a single day. "Late night" used to wrap from
      10pm round to 6am, which lumped a 2am slot in with an 11pm one — very
@@ -93,12 +99,13 @@
     sessions: {},          // letter -> enabled
     bands: {},             // band id -> enabled
     index: {},             // slot instant, as UTC ISO -> merged slot
-    months: {},            // 'YYYY-MM' -> loading | live | incomplete | snapshot | partial | unavailable | failed
+    months: {},            // 'YYYY-MM' -> queued | loading | live | incomplete | snapshot | partial | unavailable | failed
     partialUntil: {},      // 'YYYY-MM' -> ms: the loaded data for that month stops here
     pending: {},           // 'YYYY-MM' -> the load in flight
     coverage: [],          // { from, to, source }: spans an older Worker or the snapshot covered
     monthAware: null,      // does the Worker answer month=? unknown until it first replies
     monthOpen: 0,          // future times in the month on screen, before time-of-day filters
+    staleAt: {},           // 'YYYY-MM' -> when times the Worker served from its fallback copy were checked
     snapshotTried: false,
     snapshotGenerated: null
   };
@@ -378,6 +385,7 @@
 
   /* A month that failed, or came back with some sessions missing, is worth asking for again. */
   function retryable(status) { return status === 'failed' || status === 'incomplete'; }
+  function isLoading(status) { return status === 'loading' || status === 'queued'; }
 
   /**
    * Make sure a month's times are loaded, then settle what the page can say
@@ -407,6 +415,7 @@
           /* Some calendars answered and some did not. What arrived is real, but times
              may be missing, and a thin month must not pass for a full one. */
           state.months[key] = data.partial ? 'incomplete' : 'live';
+          state.staleAt[key] = data.stale ? (data.checkedAt || data.generated || null) : null;
         } else {
           state.monthAware = false;
           absorb(data, null);
@@ -540,12 +549,24 @@
     document.getElementById('cal-next').addEventListener('click', function () { shiftMonth(1); });
   }
 
-  /** Move the calendar, and load the month it lands on if it is not loaded yet. */
+  /** Move the calendar, and load the month it lands on once the candidate stops there. */
   function shiftMonth(n) {
     var target = addMonths(state.month, n), here = thisMonth();
     if (monthIndex(target) < monthIndex(here) || monthIndex(target) > monthIndex(here) + MONTHS_AHEAD) return;
+    // Passing through a month without stopping leaves it unloaded, not stuck "loading".
+    if (state.months[monthKey(state.month)] === 'queued') delete state.months[monthKey(state.month)];
     state.month = target;
-    ensureMonth(target);
+    clearTimeout(settleTimer);
+    var st = state.months[monthKey(target)];
+    if (!st || retryable(st)) {
+      state.months[monthKey(target)] = 'queued';
+      settleTimer = setTimeout(function () {
+        if (!sameMonth(state.month, target) || state.months[monthKey(target)] !== 'queued') return;
+        delete state.months[monthKey(target)];
+        ensureMonth(target);
+        render();
+      }, SETTLE_MS);
+    }
     render();
   }
 
@@ -616,7 +637,7 @@
       return '<a href="' + BOOK_DIRECT + '" target="_blank" rel="noopener">' + text + '</a>';
     };
     var html = '';
-    if (status === 'loading') {
+    if (isLoading(status)) {
       html = 'Loading times for ' + name + '…';
     } else if (status === 'failed') {
       html = 'Times for ' + name + ' could not be loaded just now. ' +
@@ -665,7 +686,19 @@
        month whose times came from the snapshot. No Worker, no live data:
        Calendly's availability endpoint sends no Access-Control-Allow-Origin
        header, so a browser cannot call it. */
-    if (state.months[monthKey(state.month)] !== 'snapshot' || !state.snapshotGenerated) {
+    var key = monthKey(state.month), status = state.months[key];
+    /* A live month the Worker could only answer from its fallback copy, because
+       Calendly refused it just then. Say when those times were checked. */
+    if ((status === 'live' || status === 'incomplete') && state.staleAt[key]) {
+      el.className = 'cal-freshness is-stale';
+      el.textContent = 'Some of these times were last checked ' +
+        new Date(state.staleAt[key]).toLocaleString('en-US',
+          { timeZone: state.tz, month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) +
+        ' and may already be taken. Calendly confirms what is still free when you book.';
+      el.hidden = false;
+      return;
+    }
+    if (status !== 'snapshot' || !state.snapshotGenerated) {
       el.hidden = true; el.textContent = ''; return;
     }
     var ageMs = Date.now() - new Date(state.snapshotGenerated).getTime();
@@ -695,7 +728,7 @@
     document.getElementById('cal-next').disabled = at >= here + MONTHS_AHEAD;
 
     var grid = document.getElementById('cal-grid');
-    grid.setAttribute('aria-busy', state.months[monthKey(state.month)] === 'loading' ? 'true' : 'false');
+    grid.setAttribute('aria-busy', isLoading(state.months[monthKey(state.month)]) ? 'true' : 'false');
     grid.innerHTML = '';
     DAY_NAMES.forEach(function (n) {
       var h = document.createElement('div');
@@ -775,7 +808,7 @@
        November's grid. */
     if (!key || !byDay[key] || key.slice(0, 7) !== monthKey(state.month)) {
       if (!days.length) {
-        var loading = state.months[monthKey(state.month)] === 'loading';
+        var loading = isLoading(state.months[monthKey(state.month)]);
         panel.innerHTML = '<p class="cal-day__empty">' +
           (loading ? 'Loading times…' : state.monthOpen ? 'No times match these filters.' : 'No times to show for this month.') +
           '</p>';
