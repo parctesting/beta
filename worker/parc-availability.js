@@ -23,8 +23,16 @@
  * and always book normally, and the merged panel hides itself on any failure.
  * Do not make the booking flow depend on this Worker.
  *
+ * WHAT IT ANSWERS
+ *   ?month=2026-11        every open time in that month, plus a day either side
+ *   ?days=21              the next N days from today (what older pages ask for)
+ *   &tz=America/Chicago   &include=youth
+ * A reply to month= echoes the month back. That echo is how the page tells this
+ * build from an older one that only understood days= — the page asks for both,
+ * so an older Worker still returns what it can.
+ *
  * DEPLOY
- *   cd worker && npx wrangler deploy
+ *   ./deploy-worker.sh    (needs your own Cloudflare credentials; see that file)
  */
 
 const PROFILE = 'parctesting';
@@ -92,6 +100,45 @@ function originAllowed(origin) {
 const PROFILE_TTL = 3600;   // event-type list: changes rarely
 const RANGE_TTL = 60;       // availability: fresh enough to act on, gentle upstream
 
+const DAY_MS = 86400000;
+
+/* Calendly's range endpoint refuses long spans. Measured 2026-09-13: 35 days
+   answers, 45 fails with every calendar erroring. The cap here used to be 60, so
+   any request for 36-60 days came back as a 502 instead of data. A month with a
+   day of margin each side is at most 33 days, inside the limit. */
+const MAX_SPAN_DAYS = 35;
+
+/* How far ahead a month may be asked for. Sessions are open months out; the
+   bound just stops something walking the calendar from spending the request
+   budget on years that will never have a session. */
+const MAX_MONTHS_AHEAD = 12;
+
+const isoDate = (ms) => new Date(ms).toISOString().slice(0, 10);
+
+/** The dates to ask Calendly for, from ?month= or else ?days=. */
+function requestedRange(params) {
+  const now = new Date();
+  const today = isoDate(now.getTime());
+  const month = params.get('month') || '';
+
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) {
+    const y = Number(month.slice(0, 4));
+    const m = Number(month.slice(5, 7));
+    /* A day of margin each side. Calendly buckets days in one zone and the
+       candidate may be in another, so the first morning and the last night of
+       the month, as they see it, can sit on the neighboring month's dates. */
+    const from = isoDate(Date.UTC(y, m - 1, 1) - DAY_MS);
+    const to = isoDate(Date.UTC(y, m, 0) + DAY_MS);     // day 0 of the next month is this month's last day
+    const start = from < today ? today : from;          // Calendly has nothing bookable in the past
+    const ahead = (y - now.getUTCFullYear()) * 12 + (m - 1 - now.getUTCMonth());
+    return { month, start, end: to, empty: to < start || ahead > MAX_MONTHS_AHEAD };
+  }
+
+  const asked = parseInt(params.get('days') || '14', 10);
+  const days = Math.min(Math.max(Number.isFinite(asked) ? asked : 14, 1), MAX_SPAN_DAYS);
+  return { month: null, start: today, end: isoDate(now.getTime() + days * DAY_MS), empty: false };
+}
+
 function corsHeaders(origin) {
   const allow = originAllowed(origin) ? origin : DEFAULT_ORIGIN;
   return {
@@ -119,7 +166,7 @@ async function resolveEventTypes(includeYouth) {
   const out = [];
   for (const s of wanted) {
     const hit = list.find((e) => s.match.test(e.name || ''));
-    if (hit) out.push({ letter: s.letter, uuid: hit.uuid, slug: hit.slug, name: hit.name });
+    if (hit) out.push({ letter: s.letter, uuid: hit.uuid, slug: hit.slug, name: hit.name, youth: !!s.youth });
   }
   return out;
 }
@@ -134,12 +181,21 @@ export default {
 
     const url = new URL(request.url);
     const tz = url.searchParams.get('tz') || 'America/Chicago';
-    const days = Math.min(Math.max(parseInt(url.searchParams.get('days') || '14', 10), 1), 60);
     const includeYouth = url.searchParams.get('include') === 'youth';
+    const range = requestedRange(url.searchParams);
 
-    const today = new Date();
-    const start = today.toISOString().slice(0, 10);
-    const end = new Date(today.getTime() + days * 86400000).toISOString().slice(0, 10);
+    const reply = (body) => new Response(JSON.stringify({
+      generated: new Date().toISOString(),
+      timezone: tz,
+      month: range.month,
+      range: { start: range.start, end: range.end },
+      ...body,
+    }), {
+      headers: { ...cors, 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' },
+    });
+
+    // A month already over, or too far out: nothing to ask Calendly.
+    if (range.empty) return reply({ sources: [], partial: false, slots: [] });
 
     try {
       const types = await resolveEventTypes(includeYouth);
@@ -148,7 +204,7 @@ export default {
       const results = await Promise.allSettled(types.map(async (t) => {
         const u = `https://calendly.com/api/booking/event_types/${t.uuid}/calendar/range`
           + `?timezone=${encodeURIComponent(tz)}&diagnostics=false`
-          + `&range_start=${start}&range_end=${end}`;
+          + `&range_start=${range.start}&range_end=${range.end}`;
         return { type: t, data: await cachedJson(u, RANGE_TTL) };
       }));
 
@@ -176,14 +232,10 @@ export default {
 
       const slots = [...bucket.values()].sort((a, b) => new Date(a.start) - new Date(b.start));
 
-      return new Response(JSON.stringify({
-        generated: new Date().toISOString(),
-        timezone: tz,
-        sources: types.map((t) => ({ letter: t.letter, slug: t.slug, youth: !!t.youth })),
+      return reply({
+        sources: types.map((t) => ({ letter: t.letter, slug: t.slug, youth: t.youth })),
         partial: okCount < types.length,   // some calendars failed; page can note it
         slots,
-      }), {
-        headers: { ...cors, 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' },
       });
     } catch (err) {
       // The page falls back to the tabbed embeds on any non-200.
