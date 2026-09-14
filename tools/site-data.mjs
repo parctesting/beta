@@ -79,6 +79,11 @@ export const SITE = {
   paypalButton: 'FG837WNAHF4P4',
   banner: '/images/banner-1600.jpg',
   bannerMobile: '/images/banner-900.jpg',
+  // Same crops at higher resolution, for 2x screens and monitors wider than 1600px.
+  // Cut from the 3000x720 original (git ad484bab^:Documents/Banner.jpg): desktop is
+  // the strip y=180..540, the phone crop its centred 1200px.
+  bannerLarge: '/images/banner-2400.jpg',
+  bannerMobileLarge: '/images/banner-1200.jpg',
   ogImage: '/images/og-parc.jpg',
   /* Ownership of parcradio.org is verified in Search Console as a DNS *domain*
      property, which covers every subdomain and both protocols - stronger than a

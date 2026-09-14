@@ -73,8 +73,14 @@ export function buildHead(rel, meta) {
   L.push('<meta name="color-scheme" content="light">');
   L.push(`<link rel="icon" href="${link(rel, '/favicon.ico')}" sizes="any">`);
   L.push(`<link rel="stylesheet" href="${link(rel, '/css/site.css')}">`);
-  if (meta.preloadBanner !== false)
-    L.push(`<link rel="preload" as="image" href="${link(rel, SITE.banner)}" fetchpriority="high">`);
+  /* One preload per layout, matching the <picture> in the header. Unscoped, phones
+     fetched the desktop banner and then the phone crop as well. */
+  if (meta.preloadBanner !== false) {
+    L.push(`<link rel="preload" as="image" media="(min-width: 701px)" href="${link(rel, SITE.banner)}" ` +
+           `imagesrcset="${link(rel, SITE.banner)} 1600w, ${link(rel, SITE.bannerLarge)} 2400w" imagesizes="100vw" fetchpriority="high">`);
+    L.push(`<link rel="preload" as="image" media="(max-width: 700px)" href="${link(rel, SITE.bannerMobile)}" ` +
+           `imagesrcset="${link(rel, SITE.bannerMobile)} 900w, ${link(rel, SITE.bannerMobileLarge)} 1200w" imagesizes="100vw" fetchpriority="high">`);
+  }
   /* Cloudflare Web Analytics. Matches the snippet Cloudflare issues verbatim
      (type="module", which defers by default). The token is not a secret — it
      ships in the HTML of every page by design. */
@@ -128,9 +134,11 @@ export function buildHeader(rel) {
 <header class="site-header">
   <a class="site-banner" href="${link(rel, '/index.html')}" aria-label="${esc(SITE.name)} home">
     <picture>
-      <source media="(max-width: 700px)" srcset="${link(rel, SITE.bannerMobile)}">
-      <img src="${link(rel, SITE.banner)}" width="1600" height="192" fetchpriority="high"
-           alt="${esc(SITE.name)}">
+      <source media="(max-width: 700px)" sizes="100vw"
+              srcset="${link(rel, SITE.bannerMobile)} 900w, ${link(rel, SITE.bannerMobileLarge)} 1200w">
+      <img src="${link(rel, SITE.banner)}" sizes="100vw"
+           srcset="${link(rel, SITE.banner)} 1600w, ${link(rel, SITE.bannerLarge)} 2400w"
+           width="1600" height="192" fetchpriority="high" alt="${esc(SITE.name)}">
     </picture>
   </a>
 
@@ -195,12 +203,14 @@ function studyBand(rel) {
 `;
 }
 
-export function buildFooter(rel = 'index.html') {
+/* opts.studyBand false leaves the Ham Radio Prep line out: a page that already shows
+   the full card should not repeat the offer in its footer. */
+export function buildFooter(rel = 'index.html', opts = {}) {
   const a = SITE.address;
   return `</main>
 
 <footer class="site-footer">
-${studyBand(rel)}  <div class="site-footer__inner">
+${opts.studyBand === false ? '' : studyBand(rel)}  <div class="site-footer__inner">
     <div>
       <h2>Contact Us</h2>
       <p>${esc(SITE.name)}<br>
