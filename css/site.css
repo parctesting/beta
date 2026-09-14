@@ -1722,7 +1722,9 @@ a.skip-link:focus {
    a single side-by-side drawing would shrink until neither half was legible. */
 .compare-figs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  /* min(): a 320px-wide phone (or an iPhone on Larger Text zoom) has less than
+     19rem to give, and a fixed minimum pushed the page sideways there. */
+  grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
   gap: var(--sp-4);
   margin: var(--sp-5) 0;
 }
