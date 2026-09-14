@@ -1864,9 +1864,15 @@ h2.doc-section {
 /* The shared base is inline-flex, which shrinks to its text. Inside a grid the
    cells should be equal, so stretch them.
    A cell can be as narrow as 11rem, and the base button's 1.5rem each side left
-   too little room for a long word: "Accommodations" ran over the border in
-   Firefox. Less side padding here, and a label that wraps stays centred. */
-.page-links .page-link { display: flex; width: 100%; padding-inline: var(--sp-3); text-align: center; }
+   too little room for a long word: "Accommodations" ran into the padding in
+   every browser and over the border in Firefox. Less side padding here, and a
+   label that wraps stays centred (two-line labels were left-aligned). If a wider
+   font still cannot fit a word, it hyphenates, or breaks as a last resort,
+   inside the button rather than spilling out of it. */
+.page-links .page-link {
+  display: flex; width: 100%; padding-inline: var(--sp-3); text-align: center;
+  -webkit-hyphens: auto; hyphens: auto; overflow-wrap: anywhere;
+}
 /* The two ways into the online instructions: each button with its caption
    underneath. They were a button and then a line starting with a colon, because
    the nav sat inside a paragraph and the browser split them apart. */
