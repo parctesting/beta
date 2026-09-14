@@ -1890,6 +1890,8 @@ h2.doc-section {
    underneath. They were a button and then a line starting with a colon, because
    the nav sat inside a paragraph and the browser split them apart. */
 .instruction-choice { margin-top: var(--sp-4); }
+/* The first heading under the page title, so an h2, but kept at the h3 size it was designed at. */
+.instruction-choice__title { font-size: var(--step-2); }
 .instruction-choice__item p { margin: var(--sp-2) 0 0; font-size: var(--step--1); color: var(--ink-2); }
 .page-link:hover,
 .page-link:focus-visible { background: var(--parc-red); border-color: var(--parc-red); color: #fff; }
