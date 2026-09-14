@@ -532,8 +532,11 @@ th { background: var(--surface-2); font-weight: 700; }
    The navigation grids used to be a separate component with 2px borders, a
    larger radius and uppercase labels, so the same kind of action looked
    different depending which page you were on. */
+/* text-align as well as justify-content: a label that wraps on a narrow screen
+   ("Printable checklist (PDF)" at 320px) otherwise sits left-aligned inside a
+   centred button. The phone menu sets its own left alignment. */
 button, .btn, .page-link {
-  font: inherit; font-weight: 600; cursor: pointer;
+  font: inherit; font-weight: 600; cursor: pointer; text-align: center;
   display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
   padding: var(--sp-3) var(--sp-5);
   border-radius: var(--radius-sm); border: 1px solid var(--line-2);
@@ -1869,16 +1872,14 @@ h2.doc-section {
 
 /* The shared base is inline-flex, which shrinks to its text. Inside a grid the
    cells should be equal, so stretch them.
-   A cell can be as narrow as 11rem, and the base button's 1.5rem each side left
-   too little room for a long word: "Accommodations" ran into the padding in
-   every browser and over the border in Firefox. Less side padding here, and a
-   label that wraps stays centred (two-line labels were left-aligned). If a wider
-   font still cannot fit a word, it hyphenates, or breaks as a last resort,
-   inside the button rather than spilling out of it. */
-.page-links .page-link {
-  display: flex; width: 100%; padding-inline: var(--sp-3); text-align: center;
-  -webkit-hyphens: auto; hyphens: auto; overflow-wrap: anywhere;
-}
+   A cell can be as narrow as 11rem (178px in the 750px text column), and the base
+   button's 1.5rem each side left too little room for a long word: "Accommodations"
+   (153px at desktop type size) ran into the padding in every browser and over the
+   border in Firefox. 0.5rem each side leaves it about 8px to spare.
+   No hyphens:auto or overflow-wrap:anywhere here: tried as a safety net, they split
+   "Accommodation / s" in Chromium and Firefox and "Multiple Candid- / ates" in
+   WebKit, which reads worse than a word sitting close to the border would. */
+.page-links .page-link { display: flex; width: 100%; padding-inline: var(--sp-2); }
 /* The two ways into the online instructions: each button with its caption
    underneath. They were a button and then a line starting with a colon, because
    the nav sat inside a paragraph and the browser split them apart. */
