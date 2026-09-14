@@ -1258,6 +1258,9 @@ textarea.review-input { resize: vertical; min-height: 7rem; }
 /* Turnstile draws its own fixed-size iframe; this only gives it room. It is
    empty until the widget renders, so it must not reserve space of its own. */
 .review-turnstile:not(:empty) { margin: var(--sp-4) 0; }
+/* The widget now appears only once the form is used; keep its 65px from the start
+   so Submit does not move under the visitor's finger. */
+.review-turnstile.is-reserved { min-height: 65px; margin: var(--sp-4) 0; }
 .review-turnstile { max-width: 100%; }
 
 /* The widget is a hard 300px wide. On a 320px phone the content column is about
