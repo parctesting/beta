@@ -702,6 +702,12 @@ a.dropbtn--team:focus-visible {
 .callout dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: var(--sp-2) var(--sp-4); }
 .callout dt { font-weight: 700; color: var(--ink-2); }
 .callout dd { margin: 0; }
+/* The next thing to do at the end of a step: the same box, with one main action and
+   at most one quiet one beside it. The exam-type pages used to stop dead, or send
+   the candidate back to the start of the instructions. */
+.callout--next { margin: var(--sp-6) 0 var(--sp-5); }
+.callout--next p { margin: 0 0 var(--sp-3); }
+.callout--next .callout__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin: var(--sp-4) 0 0; }
 
 /* The homepage's first words to a nervous candidate: reassurance before the
    detail. Deliberately calmer than the "5-7 business days" highlight just above
