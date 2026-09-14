@@ -278,6 +278,9 @@ export const PAGES = {
     title: 'Online Ham Radio Exam Rules',
     desc: 'The rules every candidate agrees to for a remote amateur radio license exam with PARC, and what will end a session early.',
     h1: 'Exam Rules',
+    // An older copy of Online_Rules_IQ.html that still said no passports. It now only points
+    // there, and stays out of search and the sitemap; the page is kept so old links land somewhere.
+    noindex: true,
   },
   'pages/Online_Rules_IQ.html': {
     title: 'Online Exam Rules and Requirements',
