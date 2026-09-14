@@ -43,6 +43,10 @@
   --page:       #F1F3F5;
   --line:       #DFE4E9;
   --line-2:     #C9D1D8;
+  /* An unfilled rating star. It is still part of the rating, so it needs 3:1
+     like any meaningful graphic: 3.3-3.5:1 on page, card and surface. --line-2
+     was 1.5:1, and the empty stars all but vanished. */
+  --star-empty: #7F8891;
 
   /* Navigation sits directly beneath an already-red banner. A second
      full-width red band doubled the amount of saturated red on every page.
@@ -982,7 +986,9 @@ a.dropbtn--team:focus-visible {
   background: var(--surface); font: inherit; padding: 0;
 }
 .cal-cell.is-empty { border: 0; background: none; }
-.cal-cell.is-none { color: var(--line-2); background: var(--surface-2); }
+/* Days with no times stay quieter than bookable ones, but the date must still
+   be readable: --line-2 made the numbers 1.44:1. */
+.cal-cell.is-none { color: var(--muted); background: var(--surface-2); }
 .cal-cell__num { font-size: var(--step--1); font-weight: 600; }
 .cal-cell__count { font-size: .7rem; font-weight: 700; line-height: 1; }
 
@@ -1187,7 +1193,7 @@ a.dropbtn--team:focus-visible {
 .reviews-count { color: var(--muted); font-size: var(--step--1); }
 
 .stars-inline { display: inline-flex; gap: 1px; }
-.star-mark { color: var(--line-2); font-size: 1.15em; line-height: 1; }
+.star-mark { color: var(--star-empty); font-size: 1.15em; line-height: 1; }
 /* Amber reads as a rating; red would read as an error. Dark enough to clear
    3:1 against the page, which WCAG requires of graphics that carry meaning —
    these stars ARE the rating. */
@@ -1213,7 +1219,7 @@ a.dropbtn--team:focus-visible {
 .rating-stars { display: flex; gap: var(--sp-1); }
 .star {
   background: none; border: 0; cursor: pointer; padding: var(--sp-1) 2px;
-  font-size: 2rem; line-height: 1; color: var(--line-2);
+  font-size: 2rem; line-height: 1; color: var(--star-empty);
   transition: color .12s ease, transform .06s ease;
 }
 .star:hover, .star.is-on { color: #C07D14; }
@@ -1856,8 +1862,11 @@ h2.doc-section {
 .page-link:visited { border-color: var(--parc-red); color: var(--parc-700); }
 
 /* The shared base is inline-flex, which shrinks to its text. Inside a grid the
-   cells should be equal, so stretch them. */
-.page-links .page-link { display: flex; width: 100%; }
+   cells should be equal, so stretch them.
+   A cell can be as narrow as 11rem, and the base button's 1.5rem each side left
+   too little room for a long word: "Accommodations" ran over the border in
+   Firefox. Less side padding here, and a label that wraps stays centred. */
+.page-links .page-link { display: flex; width: 100%; padding-inline: var(--sp-3); text-align: center; }
 /* The two ways into the online instructions: each button with its caption
    underneath. They were a button and then a line starting with a colon, because
    the nav sat inside a paragraph and the browser split them apart. */
