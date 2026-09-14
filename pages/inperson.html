@@ -21,7 +21,8 @@
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="stylesheet" href="../css/site.css">
-<link rel="preload" as="image" href="../images/banner-1600.jpg" fetchpriority="high">
+<link rel="preload" as="image" media="(min-width: 701px)" href="../images/banner-1600.jpg" imagesrcset="../images/banner-1600.jpg 1600w, ../images/banner-2400.jpg 2400w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" media="(max-width: 700px)" href="../images/banner-900.jpg" imagesrcset="../images/banner-900.jpg 900w, ../images/banner-1200.jpg 1200w" imagesizes="100vw" fetchpriority="high">
 
 <!-- Cloudflare Web Analytics -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9ba7325d05ee4c318c7d359aefcac7a8"}'></script>
@@ -34,9 +35,11 @@
 <header class="site-header">
   <a class="site-banner" href="../index.html" aria-label="PARC Radio &amp; Technology home">
     <picture>
-      <source media="(max-width: 700px)" srcset="../images/banner-900.jpg">
-      <img src="../images/banner-1600.jpg" width="1600" height="192" fetchpriority="high"
-           alt="PARC Radio &amp; Technology">
+      <source media="(max-width: 700px)" sizes="100vw"
+              srcset="../images/banner-900.jpg 900w, ../images/banner-1200.jpg 1200w">
+      <img src="../images/banner-1600.jpg" sizes="100vw"
+           srcset="../images/banner-1600.jpg 1600w, ../images/banner-2400.jpg 2400w"
+           width="1600" height="192" fetchpriority="high" alt="PARC Radio &amp; Technology">
     </picture>
   </a>
 
@@ -149,8 +152,6 @@ ABOUT THE TEAM: We have been providing tests for new and old hams for many years
 <p>All of us volunteer our time to proctor your test, and we look forward to meeting you and welcoming you to the growing community of Amateur Radio Operators around the world.</p>
 
 <p>CONFIRM YOUR APPOINTMENT: *** DO NOT FORGET TO CONFIRM YOUR APPOINTMENT BY EMAIL *** Failure to confirm your appointment may result in no one being scheduled to be at the test session, and it will be canceled without notice. We only travel to test sites with a confirmed appointment with a candidate.</p>
-
-<p>*** For an appointment, EMAIL us your name, address, cell phone number, self-photo, license class(es) you will be testing for, and your call sign (if any). Please confirm the location, date, and time of the test session you are confirming an appointment for with your email. ***</p>
 
 <p>You will be emailed a confirmation of appointment for your exam date within a day or so of receipt. Many people do not realize that test sessions are held for an individual or group of individuals. Unless a test session is held at a hamfest, it is only held if someone signs up to take the test. All the VEs are volunteers, and we enjoy giving people tests and helping them enter the hobby or advance their knowledge. We are happy to meet to test just one person or one hundred people. Since we host test sessions in many locations, we mean it when we say we are happy to give you and only you a test. Many of our sessions are held where there is a restaurant, and you are welcome to eat and drink while you test. If you have special requests or need a test on a different date or time, we may be able to accommodate your request. Please remember that you may be the only one testing. If something happens and you cannot make it, please give us at least 24 hours’ notice.</p>
 
