@@ -126,7 +126,6 @@
 
     <h2 class="noDisplay">Main Content</h2> 
 <aside class="partner-card" aria-labelledby="hrp-study">
-  <p class="partner-card__eyebrow">PARC study partner</p>
   <h2 class="partner-card__title" id="hrp-study">Study with Ham Radio Prep</h2>
   <p>Ham Radio Prep makes it fast and easy to pass your ham radio license exam, with an interactive
     online class of videos, text lessons, quizzes, and games. They’ve had over 60,000 successful
@@ -147,12 +146,16 @@
 
 
 <h3><center>How would you like your instructions?</center></h3>
-<ul class="stepper-list">
-  <li><a href="Online_GeneralInfo.html">Step-by-step instructions</a> &mdash; step through only
-    the instructions that apply to you.</li>
-  <li><a href="online.html">Complete text instructions</a> &mdash; the complete instructions
-    and rule manual.</li>
-</ul>
+<nav class="page-links instruction-choice" aria-label="Choose how to read the instructions">
+  <div class="instruction-choice__item">
+    <a class="page-link" href="Online_GeneralInfo.html">Step-by-Step Instructions</a>
+    <p>Step through the instructions that only apply to you.</p>
+  </div>
+  <div class="instruction-choice__item">
+    <a class="page-link" href="online.html">Complete Text Instructions</a>
+    <p>The complete instructions and rule manual.</p>
+  </div>
+</nav>
 
 <p>Please review the FCC Forms that you will be certifying at the end of your exam.</p>
 <nav class="page-links">

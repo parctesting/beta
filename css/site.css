@@ -727,10 +727,6 @@ a.dropbtn--team:focus-visible {
   border-radius: var(--radius); box-shadow: var(--shadow-1);
   padding: var(--sp-5); margin: var(--sp-5) 0 var(--sp-6);
 }
-.partner-card .partner-card__eyebrow {
-  margin: 0 0 var(--sp-1); font-size: var(--step--1); font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase; color: var(--parc-700);
-}
 .partner-card .partner-card__title { margin: 0 0 var(--sp-3); font-size: var(--step-2); color: var(--ink); }
 .partner-card p { margin: 0 0 var(--sp-3); max-width: 72ch; }
 .partner-card .partner-card__courses {
@@ -1849,6 +1845,11 @@ h2.doc-section {
 /* The shared base is inline-flex, which shrinks to its text. Inside a grid the
    cells should be equal, so stretch them. */
 .page-links .page-link { display: flex; width: 100%; }
+/* The two ways into the online instructions: each button with its caption
+   underneath. They were a button and then a line starting with a colon, because
+   the nav sat inside a paragraph and the browser split them apart. */
+.instruction-choice { margin-top: var(--sp-4); }
+.instruction-choice__item p { margin: var(--sp-2) 0 0; font-size: var(--step--1); color: var(--ink-2); }
 .page-link:hover,
 .page-link:focus-visible { background: var(--parc-red); border-color: var(--parc-red); color: #fff; }
 
