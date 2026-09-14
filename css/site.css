@@ -726,7 +726,16 @@ a.dropbtn--team:focus-visible {
   border: 1px solid var(--line); border-left: 4px solid var(--parc-red);
   border-radius: var(--radius); box-shadow: var(--shadow-1);
   padding: var(--sp-5); margin: var(--sp-5) 0 var(--sp-6);
+  overflow: hidden;   /* keeps the logo strip inside the rounded corners */
 }
+/* Ham Radio Prep's logo is white, made for dark backgrounds, so it sits on a dark
+   strip across the top of the card rather than being recolored. */
+.partner-card .partner-card__brand {
+  background: var(--ink);
+  margin: calc(-1 * var(--sp-5)) calc(-1 * var(--sp-5)) var(--sp-4);
+  padding: var(--sp-3) var(--sp-5);
+}
+.partner-card .partner-card__brand img { display: block; height: 40px; width: auto; max-width: 100%; }
 .partner-card .partner-card__title { margin: 0 0 var(--sp-3); font-size: var(--step-2); color: var(--ink); }
 .partner-card p { margin: 0 0 var(--sp-3); max-width: 72ch; }
 .partner-card .partner-card__courses {
@@ -752,8 +761,10 @@ a.dropbtn--team:focus-visible {
 .study-band {
   max-width: var(--wrap); margin: 0 auto var(--sp-6);
   padding-bottom: var(--sp-5); border-bottom: 1px solid rgba(255, 255, 255, .15);
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-5);
 }
-.study-band p { margin: 0; line-height: 1.7; }
+.study-band p { margin: 0; line-height: 1.7; flex: 1 1 22rem; }
+.study-band__logo { display: block; height: 26px; width: auto; }
 .site-footer .study-band .coupon { background: transparent; border-color: rgba(255, 255, 255, .7); color: #fff; }
 @media (max-width: 600px) { .welcome { padding: var(--sp-4); } }
 

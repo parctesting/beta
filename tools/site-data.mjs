@@ -62,6 +62,8 @@ export const SITE = {
      the Technician course, which is the drift that check is there to catch. */
   hamRadioPrep: {
     home: 'https://hamradioprep.com/',
+    // Their own horizontal logo, supplied by the owner. White, for dark backgrounds.
+    logo: { src: '/images/hamradioprep-logo-white.webp', width: 1080, height: 209 },
     code: 'PARC',
     percent: 20,
     courses: [
