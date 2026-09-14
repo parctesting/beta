@@ -1259,8 +1259,11 @@ textarea.review-input { resize: vertical; min-height: 7rem; }
    empty until the widget renders, so it must not reserve space of its own. */
 .review-turnstile:not(:empty) { margin: var(--sp-4) 0; }
 /* The widget now appears only once the form is used; keep its 65px from the start
-   so Submit does not move under the visitor's finger. */
-.review-turnstile.is-reserved { min-height: 65px; margin: var(--sp-4) 0; }
+   so Submit does not move under the visitor's finger. Its frame is inline, so the
+   line height hung an extra 8px under it; line-height 0 removes that, and the note
+   shown when the check cannot run gets ordinary line spacing back. */
+.review-turnstile.is-reserved { min-height: 65px; margin: var(--sp-4) 0; line-height: 0; }
+.review-turnstile .review-form-note { line-height: 1.5; }
 .review-turnstile { max-width: 100%; }
 
 /* The widget is a hard 300px wide. On a 320px phone the content column is about
