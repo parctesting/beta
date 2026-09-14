@@ -177,13 +177,18 @@ ${navHtml(rel)}
 /* ---------- footer -------------------------------------------------------- */
 /* Ham Radio Prep on every page, built from SITE.hamRadioPrep so a changed course
    link is changed in one place. */
-function studyBand() {
+function studyBand(rel) {
   const p = SITE.hamRadioPrep;
   if (!p || !p.courses || !p.courses.length) return '';
   const links = p.courses
     .map((c) => `<a href="${esc(c.href)}" target="_blank" rel="noopener">${esc(c.short)}</a>`)
     .join(', ');
-  return `  <aside class="study-band" aria-label="Study partner">
+  /* Their logo is white, made for a dark background, which the footer is. alt=""
+     because the sentence beside it already names Ham Radio Prep. */
+  const logo = p.logo
+    ? `\n    <img class="study-band__logo" src="${esc(link(rel, p.logo.src))}" alt="" width="${p.logo.width}" height="${p.logo.height}">`
+    : '';
+  return `  <aside class="study-band" aria-label="Ham Radio Prep offer">${logo}
     <p><strong>Studying for your exam?</strong> Ham Radio Prep courses are
       <strong>${p.percent}% off</strong> with code <span class="coupon">${esc(p.code)}</span> &mdash; ${links}.</p>
   </aside>
@@ -195,7 +200,7 @@ export function buildFooter(rel = 'index.html') {
   return `</main>
 
 <footer class="site-footer">
-${studyBand()}  <div class="site-footer__inner">
+${studyBand(rel)}  <div class="site-footer__inner">
     <div>
       <h2>Contact Us</h2>
       <p>${esc(SITE.name)}<br>
