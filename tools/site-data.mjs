@@ -63,7 +63,9 @@ export const SITE = {
   hamRadioPrep: {
     home: 'https://hamradioprep.com/',
     // Their own horizontal logo, supplied by the owner. White, for dark backgrounds.
-    logo: { src: '/images/hamradioprep-logo-white.webp', width: 1080, height: 209 },
+    // PNG, not the WebP it came as: Safari on macOS 10.15 and older, and iOS 13 and
+    // older, cannot show WebP at all. Same pixels either way.
+    logo: { src: '/images/hamradioprep-logo-white.png', width: 1080, height: 209 },
     code: 'PARC',
     percent: 20,
     courses: [
