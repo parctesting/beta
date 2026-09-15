@@ -144,7 +144,7 @@ function withNavigation(file) {
     (m, inner) => '<nav class="page-links page-links--pager" aria-label="Instruction steps">' +
       inner.replace(/<a class="page-link page-link--(back|next)" href="([^"#]+)"[^>]*>[\s\S]*?<\/a>/g,
         (a, dir, href) => `<a class="page-link page-link--${dir}" href="${href}">` +
-          `${dir === 'back' ? 'Back' : 'Next'}: ${headingOf(href)}</a>`) +
+          `<span class="page-link__label">${dir === 'back' ? 'Back' : 'Next'}: ${headingOf(href)}</span></a>`) +
       '</nav>');
   if (out === html && !/page-links--pager/.test(html)) throw new Error(`${file}: no pager`);
 

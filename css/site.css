@@ -1968,9 +1968,12 @@ h2.doc-section {
 /* Back and Next read as direction, so they get arrows and sit at the edges. */
 .page-links--pager { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
 /* The arrows are decoration: the "/ \"\"" alternative keeps them out of the spoken
-   name ("left arrow Back: …"). Browsers without that syntax keep the first line. */
-.page-link--back::before { content: "\2190\00a0"; content: "\2190\00a0" / ""; }
-.page-link--next::after  { content: "\00a0\2192"; content: "\00a0\2192" / ""; }
+   name ("left arrow Back: …"). Browsers without that syntax keep the first line.
+   They sit inside the label span, not on the flex container: as flex items of their
+   own they pushed a two-line label ("Back: How to Book, Pay and / Register") off
+   centre. Inside the span they flow with the text and the lines centre together. */
+.page-link--back .page-link__label::before { content: "\2190\00a0"; content: "\2190\00a0" / ""; }
+.page-link--next .page-link__label::after  { content: "\00a0\2192"; content: "\00a0\2192" / ""; }
 .page-link--back, .page-link--next,
 .page-link--back:link, .page-link--next:link,
 .page-link--back:visited, .page-link--next:visited {
