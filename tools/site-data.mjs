@@ -128,12 +128,18 @@ export const SITE = {
 
 export const NAV = [
   { label: 'Home', href: '/index.html' },
+  /* The overview first: it links on to the step-by-step and complete instructions.
+     Until 2026-09-15 this went straight to the 5,000-word instructions page. */
+  { label: 'Online Testing', href: '/pages/online.html' },
+  { label: 'In-Person Testing', href: '/pages/inperson.html' },
+  { label: 'Schedule', href: '/pages/calendar.html' },
+  { label: 'FAQ', href: '/pages/faq.html' },
   {
     label: 'Helpful Links',
     children: [
       { label: "What's Next", href: '/pages/whatnext.html' },
       { label: 'Accessible Testing / HandiHam', href: '/pages/handiham.html' },
-      { label: 'Government Shutdown', href: '/pages/govshutdown.html' },
+      { label: 'If Something Goes Wrong', href: '/pages/troubleshooting.html' },
       { label: 'ARRL', href: 'https://www.arrl.org', external: true },
       { label: 'eHam', href: 'https://www.eham.net', external: true },
       { label: 'FCC License Search', href: 'https://wireless2.fcc.gov', external: true },
@@ -143,10 +149,6 @@ export const NAV = [
       { label: 'Young Ladies Radio League', href: 'https://www.ylrl.net', external: true },
     ],
   },
-  { label: 'Online Testing', href: '/pages/Online_InstructionSeparation.html' },
-  { label: 'In-Person Testing', href: '/pages/inperson.html' },
-  { label: 'FAQ', href: '/pages/faq.html' },
-  { label: 'Schedule', href: '/pages/calendar.html' },
   { label: 'Reviews', href: '/pages/reviews.html' },
   { label: 'Our Team', href: '/pages/team.html' },
 ];

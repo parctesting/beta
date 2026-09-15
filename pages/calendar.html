@@ -50,12 +50,16 @@
       </button>
       <ul class="nav-menu" id="nav-menu">
         <li><a href="../index.html">Home</a></li>
+        <li><a href="../pages/online.html">Online Testing</a></li>
+        <li><a href="../pages/inperson.html">In-Person Testing</a></li>
+        <li><a href="../pages/calendar.html" aria-current="page">Schedule</a></li>
+        <li><a href="../pages/faq.html">FAQ</a></li>
         <li class="has-sub">
           <button type="button" class="nav-sub-toggle" aria-expanded="false">Helpful Links</button>
           <ul class="nav-sub">
             <li><a href="../pages/whatnext.html">What's Next</a></li>
             <li><a href="../pages/handiham.html">Accessible Testing / HandiHam</a></li>
-            <li><a href="../pages/govshutdown.html">Government Shutdown</a></li>
+            <li><a href="../pages/troubleshooting.html">If Something Goes Wrong</a></li>
             <li><a href="https://www.arrl.org" target="_blank" rel="noopener">ARRL</a></li>
             <li><a href="https://www.eham.net" target="_blank" rel="noopener">eHam</a></li>
             <li><a href="https://wireless2.fcc.gov" target="_blank" rel="noopener">FCC License Search</a></li>
@@ -65,10 +69,6 @@
             <li><a href="https://www.ylrl.net" target="_blank" rel="noopener">Young Ladies Radio League</a></li>
           </ul>
         </li>
-        <li><a href="../pages/Online_InstructionSeparation.html">Online Testing</a></li>
-        <li><a href="../pages/inperson.html">In-Person Testing</a></li>
-        <li><a href="../pages/faq.html">FAQ</a></li>
-        <li><a href="../pages/calendar.html" aria-current="page">Schedule</a></li>
         <li><a href="../pages/reviews.html">Reviews</a></li>
         <li><a href="../pages/team.html">Our Team</a></li>
       </ul>
@@ -110,17 +110,23 @@
 
   <h1>Schedule Your Exam</h1>
 
-  <p class="booking-alert">
-    <strong>Before you book:</strong> use the <strong>same email address</strong> for
-    scheduling, payment, and registration. The $15 exam fee is non-refundable and is
-    forwarded to the ARRL VEC. <a href="#before-you-book">Read the full requirements</a>.
-  </p>
+  <div class="booking-alert">
+    <p><strong>Before you book</strong></p>
+    <ul>
+      <li>Have your FRN, ideally with an email address that is not Gmail
+        (<a href="#before-you-book">why</a>).</li>
+      <li>Use the <strong>same email address</strong> to book, pay and register.</li>
+      <li>The $15 exam fee is non-refundable: it is forwarded to the ARRL VEC.</li>
+      <li>Read <a href="online.html">how online exams work</a> and the
+        <a href="Online_InstructionSeparation.html">instructions</a> first.</li>
+    </ul>
+  </div>
 
   <div id="schedule" data-availability-endpoint="https://parc-availability.collinpikeusa.workers.dev">
 
     <div class="age-gate" id="age-gate">
         <h2>Before you pick a time</h2>
-        <p class="age-gate__why">Please enter your date of birth below. (Optional)</p>
+        <p class="age-gate__why">Enter your date of birth to see the times that apply to you. This is optional.</p>
         <p class="age-gate__safe"><strong>This stays on your device.</strong> Your date of
           birth is never sent to us, never sent to Calendly, and never saved anywhere. It
           is used once, in your browser, to decide which times to show.</p>
@@ -189,10 +195,11 @@
           </div>
           <div class="cal-grid" id="cal-grid"></div>
           <p class="cal-legend">
+            Open times:
             <span class="cal-key lvl-1"></span> a few
-            <span class="cal-key lvl-2"></span> more
-            <span class="cal-key lvl-3"></span> lots
-            &mdash; pick a day to see its times.
+            <span class="cal-key lvl-2"></span> several
+            <span class="cal-key lvl-3"></span> many
+            &mdash; pick a day to see them.
           </p>
         </div>
         <div class="cal-daybox" id="cal-day"></div>
@@ -208,49 +215,33 @@
   <div id="before-you-book" class="notices">
     <h2>Before you book &mdash; please read</h2>
 
+    <div id="example2">
+      <p><strong>Gmail users: change the email address on your FRN first.</strong>
+        The FCC&rsquo;s emails about the application fee often never reach Gmail, even in
+        spam or junk. The FCC allows only 10 days to pay; after that it dismisses the
+        application and your exam session is canceled. Once the application is submitted
+        there is usually nothing our examiners can do, so before you book, make sure your
+        FRN uses an email address that is not Gmail.</p>
+    </div>
+
     <div id="example3">
-      <p7><strong>WARNING:</strong></p7><br>
-      <p7>You MUST use the SAME EMAIL ADDRESS for scheduling, payment, and registering for the
-      exam!<br>You pay the non-refundable $15 exam fee as part of booking your time
-      slot on this page. There is no separate payment step and nothing to send us
-      afterwards.<br>
-      The fee will be forwarded to the ARRL VEC after you schedule. We cannot refund after
-      scheduling since we do not retain the fee. READ ALL REQUIREMENTS BEFORE SCHEDULING!</p7>
+      <p><strong>Come prepared.</strong> Read the
+        <a href="Online_InstructionSeparation.html">instructions</a> and the
+        <a href="faq.html">FAQ</a> before your exam. If you are brought in and you are not
+        ready, you go back to the waiting room and the next candidate goes ahead. If it
+        happens again, you will need to book a new exam.</p>
     </div>
 
-    <div id="example2">
-      <p7><strong>Important notice for Gmail users</strong></p7><br>
-      <p7>If your FCC Registration Number (FRN) is associated with a Gmail email address,
-      we strongly recommend updating it to a non-Gmail email address before scheduling an exam.<br>
-      We are currently seeing a high rate of FCC application fee notifications that are not
-      being delivered to Gmail accounts. Many applicants never receive the payment
-      notification email from the FCC, even after checking spam and junk folders.<br>
-      The FCC allows only 10 days for payment of the application fee. If payment is not
-      received within that period, the application will be dismissed by the FCC and your
-      exam session will be canceled.<br>
-      Once an exam has been scheduled and the application submitted, there is
-      generally nothing our Volunteer Examiners can do to resolve a missed FCC
-      payment notification. To avoid delays and cancellations, please ensure your FRN is
-      registered with a non-Gmail email address before scheduling your exam.</p7>
-    </div>
-
-    <div id="example2">
-      <p7>Failure to thoroughly review both the <a href="Online_InstructionSeparation.html">procedures page</a> and <a href="faq.html">FAQ page</a> on our website may
-      lead to termination of your exam. Should we grant you access to the exam room and observe
-      that you are unprepared or have not followed the specified procedures, you will be returned
-      to the waiting room, and the next candidate will be considered. If unpreparedness persists
-      on a subsequent attempt, you will be required to schedule a new exam.</p7>
-    </div>
-
-    <p>Exam slots begin every 5 minutes. While the average person finishes the exam in about
-      7 minutes, we recommend allowing at least 15 minutes to complete your test after setup.
-      These are not time limits, just information to help you plan.
-      <em>If you need additional time, email us in advance.</em></p>
+    <p>Exam slots begin every 5 minutes. Most candidates finish in about 10 minutes; allow
+      15 minutes for the exam after setup. These are not time limits, just information to
+      help you plan. <em>If you need additional time, email us before you book.</em></p>
 
     <div class="callout callout--next">
       <h2>After you book</h2>
-      <p>Your Zoom link arrives by email within 48 hours; check spam. Use the time to get
-        your room, computer and second device ready.</p>
+      <p>Within 48 hours you get an email with your registration link: complete it straight
+        away. Your Zoom link follows at least 45 minutes before your exam, and you join 45
+        minutes early. Use the time between to get your room, computer and second device
+        ready.</p>
       <p class="callout__actions"><a class="btn" href="Online_Preparation.html">Prepare for your session</a></p>
     </div>
   </div>
@@ -280,9 +271,10 @@
       <h2>Exams</h2>
       <ul>
         <li><a href="../pages/calendar.html">Schedule an exam</a></li>
-        <li><a href="../pages/Online_InstructionSeparation.html">Online testing</a></li>
+        <li><a href="../pages/online.html">Online testing</a></li>
         <li><a href="../pages/inperson.html">In-person testing</a></li>
         <li><a href="../pages/faq.html">FAQ</a></li>
+        <li><a href="../pages/troubleshooting.html">If something goes wrong</a></li>
       </ul>
     </div>
     <div>
