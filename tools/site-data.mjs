@@ -311,7 +311,7 @@ export const PAGES = {
   },
   'pages/Online_Handicapped.html': {
     title: 'Exam Accommodations for Candidates with Disabilities',
-    desc: 'How candidates with disabilities request accommodations for a PARC amateur radio exam, such as questions read aloud.',
+    desc: 'How candidates with disabilities request accommodations for a PARC amateur radio exam, such as having an examiner read the questions.',
     h1: 'Accommodations',
   },
   'pages/Online_CSCE_605.html': {
