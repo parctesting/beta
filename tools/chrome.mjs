@@ -224,9 +224,10 @@ ${opts.studyBand === false ? '' : studyBand(rel)}  <div class="site-footer__inne
       <h2>Exams</h2>
       <ul>
         <li><a href="${link(rel, '/pages/calendar.html')}">Schedule an exam</a></li>
-        <li><a href="${link(rel, '/pages/Online_InstructionSeparation.html')}">Online testing</a></li>
+        <li><a href="${link(rel, '/pages/online.html')}">Online testing</a></li>
         <li><a href="${link(rel, '/pages/inperson.html')}">In-person testing</a></li>
         <li><a href="${link(rel, '/pages/faq.html')}">FAQ</a></li>
+        <li><a href="${link(rel, '/pages/troubleshooting.html')}">If something goes wrong</a></li>
       </ul>
     </div>
     <div>
