@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Schedule a Ham Radio License Exam | PARC</title>
-<meta name="description" content="Book your amateur radio license exam. Sessions run throughout the day and night — pick a time that works and reserve your seat online.">
+<meta name="description" content="Book an amateur radio license exam with PARC. Sessions are available throughout the day and night and are reserved online.">
 <link rel="canonical" href="https://parcradio.org/pages/calendar.html">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="google-site-verification" content="Qgf_7BEJyxvtJa5wpbbwUiHJSL-rnJdlhxHs4_h0uow">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PARC Radio &amp; Technology">
 <meta property="og:title" content="Schedule a Ham Radio License Exam">
-<meta property="og:description" content="Book your amateur radio license exam. Sessions run throughout the day and night — pick a time that works and reserve your seat online.">
+<meta property="og:description" content="Book an amateur radio license exam with PARC. Sessions are available throughout the day and night and are reserved online.">
 <meta property="og:url" content="https://parcradio.org/pages/calendar.html">
 <meta property="og:image" content="https://parcradio.net/images/og-parc.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -59,7 +59,7 @@
           <ul class="nav-sub">
             <li><a href="../pages/whatnext.html">What's Next</a></li>
             <li><a href="../pages/handiham.html">Accessible Testing / HandiHam</a></li>
-            <li><a href="../pages/troubleshooting.html">If Something Goes Wrong</a></li>
+            <li><a href="../pages/troubleshooting.html">Troubleshooting</a></li>
             <li><a href="https://www.arrl.org" target="_blank" rel="noopener">ARRL</a></li>
             <li><a href="https://www.eham.net" target="_blank" rel="noopener">eHam</a></li>
             <li><a href="https://wireless2.fcc.gov" target="_blank" rel="noopener">FCC License Search</a></li>
@@ -111,25 +111,29 @@
   <h1>Schedule Your Exam</h1>
 
   <div class="booking-alert">
-    <p><strong>Before you book</strong></p>
+    <p><strong>Requirements Before Booking</strong></p>
     <ul>
-      <li>Have your FRN, ideally with an email address that is not Gmail
-        (<a href="#before-you-book">why</a>).</li>
-      <li>Use the <strong>same email address</strong> to book, pay and register.</li>
-      <li>The $15 exam fee is non-refundable: it is forwarded to the ARRL VEC.</li>
-      <li>Read <a href="online.html">how online exams work</a> and the
-        <a href="Online_InstructionSeparation.html">instructions</a> first.</li>
+      <li>An FCC Registration Number (FRN), preferably registered with an email address other
+        than Gmail (see the Gmail notice below).</li>
+      <li>The <strong>same email address</strong> must be used to book, pay and register.</li>
+      <li>The $15 examination fee is non-refundable; it is forwarded to the ARRL VEC.</li>
+      <li>Candidates must read the online testing overview and the instructions before
+        booking.</li>
     </ul>
+    <p class="btn-row">
+      <a class="btn" href="online.html">Online Testing Overview</a>
+      <a class="btn" href="Online_InstructionSeparation.html">Instructions</a>
+    </p>
   </div>
 
   <div id="schedule" data-availability-endpoint="https://parc-availability.collinpikeusa.workers.dev">
 
     <div class="age-gate" id="age-gate">
-        <h2>Before you pick a time</h2>
-        <p class="age-gate__why">Enter your date of birth to see the times that apply to you. This is optional.</p>
-        <p class="age-gate__safe"><strong>This stays on your device.</strong> Your date of
-          birth is never sent to us, never sent to Calendly, and never saved anywhere. It
-          is used once, in your browser, to decide which times to show.</p>
+        <h2>Date of Birth</h2>
+        <p class="age-gate__why">Enter your date of birth to display the applicable session times. This step is optional.</p>
+        <p class="age-gate__safe"><strong>Your date of birth remains on your device.</strong> It is
+          not sent to PARC or to Calendly and is not stored. It is used once, in your browser,
+          to determine which times to display.</p>
       <form id="age-form" class="age-gate__form">
         <fieldset class="age-gate__fields">
           <legend class="noDisplay">Date of birth</legend>
@@ -148,8 +152,8 @@
         </fieldset>
         <p class="ve-lock__status is-error" id="age-error" role="status" aria-live="polite"></p>
         <div class="age-gate__actions">
-          <button type="submit" class="btn btn--primary">Show available times</button>
-          <button type="button" class="btn" id="age-skip">Prefer not to say</button>
+          <button type="submit" class="btn btn--primary">Show Available Times</button>
+          <button type="button" class="btn" id="age-skip">Prefer Not to Say</button>
         </div>
       </form>
     </div>
@@ -158,9 +162,10 @@
       <p class="cal-status" id="cal-status" role="status" aria-live="polite" hidden></p>
 
       <div class="cal-unavailable" id="cal-unavailable" hidden>
-        <h2>Availability list unavailable</h2>
-        <p>We could not load the merged calendar just now. You can still book directly:</p>
-        <p><a class="btn btn--primary" href="https://calendly.com/parctesting" target="_blank" rel="noopener">Open all PARC calendars on Calendly</a></p>
+        <h2>Availability List Unavailable</h2>
+        <p>The combined calendar could not be loaded. Sessions can be booked directly on
+          Calendly:</p>
+        <p><a class="btn btn--primary" href="https://calendly.com/parctesting" target="_blank" rel="noopener">Open All PARC Calendars on Calendly</a></p>
       </div>
 
       <div class="cal-toolbar">
@@ -195,54 +200,58 @@
           </div>
           <div class="cal-grid" id="cal-grid"></div>
           <p class="cal-legend">
-            Open times:
-            <span class="cal-key lvl-1"></span> a few
+            Available times:
+            <span class="cal-key lvl-1"></span> few
             <span class="cal-key lvl-2"></span> several
             <span class="cal-key lvl-3"></span> many
-            &mdash; pick a day to see them.
+            &mdash; select a day to view its times.
           </p>
         </div>
         <div class="cal-daybox" id="cal-day"></div>
       </div>
 
-      <p class="cal-foot">Every PARC exam calendar is combined here, with duplicate start times merged.
-        Choosing a time takes you straight to the booking form on Calendly, which is always
-        the final word on what is still available.</p>
+      <p class="cal-foot">This calendar combines all PARC examination calendars, with duplicate
+        start times merged. Selecting a time opens the Calendly booking form, which shows
+        current availability.</p>
     </div>
 
   </div>
 
   <div id="before-you-book" class="notices">
-    <h2>Before you book &mdash; please read</h2>
+    <h2>Notices Before Booking</h2>
 
     <div id="example2">
-      <p><strong>Gmail users: change the email address on your FRN first.</strong>
-        The FCC&rsquo;s emails about the application fee often never reach Gmail, even in
-        spam or junk. The FCC allows only 10 days to pay; after that it dismisses the
-        application and your exam session is canceled. Once the application is submitted
-        there is usually nothing our examiners can do, so before you book, make sure your
-        FRN uses an email address that is not Gmail.</p>
+      <p><strong>Gmail users must update the email address on their FRN before booking.</strong>
+        FCC emails regarding the application fee are frequently not delivered to Gmail
+        accounts, including to spam and junk folders. The FCC allows only 10 days for payment;
+        after that period, it dismisses the application and the examination session is
+        canceled. Once an application has been submitted, PARC examiners generally cannot
+        resolve a missed FCC payment notice. Ensure that the FRN is registered with an email
+        address other than Gmail before booking.</p>
     </div>
 
     <div id="example3">
-      <p><strong>Come prepared.</strong> Read the
-        <a href="Online_InstructionSeparation.html">instructions</a> and the
-        <a href="faq.html">FAQ</a> before your exam. If you are brought in and you are not
-        ready, you go back to the waiting room and the next candidate goes ahead. If it
-        happens again, you will need to book a new exam.</p>
+      <p><strong>Candidates must be fully prepared.</strong> Read the instructions and the FAQ
+        before the examination. A candidate who is not ready when admitted is returned to the
+        waiting room, and the next candidate is admitted. A second occurrence requires booking
+        a new examination.</p>
+      <p class="btn-row">
+        <a class="btn" href="Online_InstructionSeparation.html">Instructions</a>
+        <a class="btn" href="faq.html">FAQ</a>
+      </p>
     </div>
 
-    <p>Exam slots begin every 5 minutes. Most candidates finish in about 10 minutes; allow
-      15 minutes for the exam after setup. These are not time limits, just information to
-      help you plan. <em>If you need additional time, email us before you book.</em></p>
+    <p>Examination slots begin every 5 minutes. Most candidates finish in approximately 10
+      minutes; allow 15 minutes for the examination after setup. These figures are for
+      planning purposes and are not time limits. <em>Requests for additional time must be
+      emailed before booking.</em></p>
 
     <div class="callout callout--next">
-      <h2>After you book</h2>
-      <p>Within 48 hours you get an email with your registration link: complete it straight
-        away. Your Zoom link follows at least 45 minutes before your exam, and you join 45
-        minutes early. Use the time between to get your room, computer and second device
-        ready.</p>
-      <p class="callout__actions"><a class="btn" href="Online_Preparation.html">Prepare for your session</a></p>
+      <h2>After Booking</h2>
+      <p>A registration link is emailed within 48 hours and must be completed immediately. The
+        Zoom link is emailed at least 45 minutes before the examination, and candidates join 45
+        minutes early. Prepare the room, computer and second device in the meantime.</p>
+      <p class="callout__actions"><a class="btn" href="Online_Preparation.html">Prepare for Your Session</a></p>
     </div>
   </div>
 
@@ -254,7 +263,7 @@
 <footer class="site-footer">
   <aside class="study-band" aria-label="Ham Radio Prep offer">
     <img class="study-band__logo" src="../images/hamradioprep-logo-white.png" alt="" width="1080" height="209">
-    <p><strong>Studying for your exam?</strong> Ham Radio Prep courses are
+    <p><strong>Ham Radio Prep courses:</strong>
       <strong>20% off</strong> with code <span class="coupon">PARC</span> &mdash; <a href="https://study.hamradioprep.com/enroll/1972787?price_id=2681038&amp;coupon=parc" target="_blank" rel="noopener">Technician</a>, <a href="https://study.hamradioprep.com/enroll/2432887?price_id=3224428&amp;coupon=parc" target="_blank" rel="noopener">General</a>, <a href="https://study.hamradioprep.com/enroll/2935944?price_id=3784628&amp;coupon=parc" target="_blank" rel="noopener">Amateur Extra</a>, <a href="https://study.hamradioprep.com/enroll/405063?price_id=422572&amp;coupon=parc" target="_blank" rel="noopener">Tech + General</a>, <a href="https://study.hamradioprep.com/enroll/1701522?price_id=3096155&amp;coupon=parc" target="_blank" rel="noopener">All Access</a>.</p>
   </aside>
   <div class="site-footer__inner">
@@ -274,7 +283,7 @@
         <li><a href="../pages/online.html">Online testing</a></li>
         <li><a href="../pages/inperson.html">In-person testing</a></li>
         <li><a href="../pages/faq.html">FAQ</a></li>
-        <li><a href="../pages/troubleshooting.html">If something goes wrong</a></li>
+        <li><a href="../pages/troubleshooting.html">Troubleshooting</a></li>
       </ul>
     </div>
     <div>
