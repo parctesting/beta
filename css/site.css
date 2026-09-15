@@ -763,7 +763,8 @@ a.dropbtn--team:focus-visible {
 /* On a phone the buttons stack; full width keeps them one tidy column. */
 @media (max-width: 600px) {
   .partner-card .partner-card__courses li { flex: 1 1 100%; }
-  .partner-card .partner-card__courses .btn { display: block; text-align: center; }
+  /* Flex, like every other button, so the new-tab arrow keeps its place. */
+  .partner-card .partner-card__courses .btn { display: flex; width: 100%; }
 }
 /* The code is the one thing to remember, so it looks like a code. */
 .coupon {
@@ -2063,6 +2064,16 @@ h2.doc-section {
     background-color: currentColor;
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M9 1h6v6h-2V4.4L8.2 9.2 6.8 7.8 11.6 3H9z'/%3E%3Cpath d='M2 4.5A1.5 1.5 0 0 1 3.5 3H7v2H4v7h7V9h2v3.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 2 12.5z'/%3E%3C/svg%3E") right center / .72em .72em no-repeat;
             mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M9 1h6v6h-2V4.4L8.2 9.2 6.8 7.8 11.6 3H9z'/%3E%3Cpath d='M2 4.5A1.5 1.5 0 0 1 3.5 3H7v2H4v7h7V9h2v3.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 2 12.5z'/%3E%3C/svg%3E") right center / .72em .72em no-repeat;
+  }
+  /* Buttons are flex containers, so there the arrow is a flex item of its own and
+     pushed a wrapped label ("Amateur Extra / Course") off centre. An empty item of
+     the same width on the left balances it. */
+  a.btn[target="_blank"]::before,
+  a.page-link[target="_blank"]::before { content: ""; flex: none; width: .72em; }
+  a.btn[target="_blank"]::after,
+  a.page-link[target="_blank"]::after {
+    content: ""; flex: none; width: .72em; height: .72em; padding: 0;
+    -webkit-mask-position: center; mask-position: center;
   }
   .social-row a::after, a.slot::after { content: none; }
 }
