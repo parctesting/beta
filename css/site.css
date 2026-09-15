@@ -1992,3 +1992,9 @@ h2.doc-section {
 .container center table { text-align: left; }
 .container center ol,
 .container center ul { display: block; margin-inline: 0; }
+
+/* The schedule page's must-knows are a short list inside the alert box. */
+.booking-alert > :first-child { margin-top: 0; }
+.booking-alert > :last-child { margin-bottom: 0; }
+.booking-alert ul { margin: var(--sp-2) 0 0; padding-left: var(--sp-5); }
+.booking-alert li { margin-bottom: var(--sp-1); }
